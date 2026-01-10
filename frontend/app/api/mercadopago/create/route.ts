@@ -24,17 +24,17 @@ export async function POST(req: Request) {
         // If email is provided, try to find the User ID from DB Service
         if (email) {
             try {
-                console.log(`🔍 Looking up user ${email} in DB Service...`);
-                const res = await fetch(`http://127.0.0.1:3001/users/find?email=${email}`);
-                const user = await res.json();
+                console.log(`🔍 Looking up user ${email} in DB...`);
+                await dbConnect();
+                const user = await User.findOne({ email });
                 if (user) {
-                    console.log("✅ User found in DB Service:", user._id || user.id);
-                    mongoUserId = user.id || user._id;
+                    console.log("✅ User found in DB:", user._id);
+                    mongoUserId = user._id.toString();
                 } else {
-                    console.warn(`⚠️ User with email ${email} not found in DB Service.`);
+                    console.warn(`⚠️ User with email ${email} not found in DB.`);
                 }
             } catch (e) {
-                console.error("❌ Failed to lookup user in DB Service", e);
+                console.error("❌ Failed to lookup user in DB", e);
             }
         }
 
@@ -56,9 +56,9 @@ export async function POST(req: Request) {
                     user_id: mongoUserId,
                 },
                 back_urls: {
-                    success: 'http://localhost:3000/wallet?payment=success',
-                    failure: 'http://localhost:3000/wallet?payment=failure',
-                    pending: 'http://localhost:3000/wallet?payment=pending',
+                    success: `${process.env.NEXT_PUBLIC_BASE_URL}/wallet?payment=success`,
+                    failure: `${process.env.NEXT_PUBLIC_BASE_URL}/wallet?payment=failure`,
+                    pending: `${process.env.NEXT_PUBLIC_BASE_URL}/wallet?payment=pending`,
                 }
             }
         };

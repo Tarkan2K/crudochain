@@ -26,7 +26,7 @@ export default function LibraryPage() {
 
         const fetchLibrary = async () => {
             try {
-                const res = await fetch(`http://127.0.0.1:18080/games/library/${userAddress}`);
+                const res = await fetch(`/api/games/library/${userAddress}`);
                 const data = await res.json();
                 setGames(data);
             } catch (e) {

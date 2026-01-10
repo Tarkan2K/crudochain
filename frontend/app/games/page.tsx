@@ -22,7 +22,7 @@ export default function GamesPage() {
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const res = await fetch('http://127.0.0.1:18080/games/list');
+                const res = await fetch('/api/games/list');
                 const data = await res.json();
                 setGames(data);
             } catch (e) {

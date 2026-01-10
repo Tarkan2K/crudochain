@@ -35,7 +35,7 @@ export default function GameDetailsPage() {
 
         const fetchGame = async () => {
             try {
-                const res = await fetch('http://127.0.0.1:18080/games/list');
+                const res = await fetch('/api/games/list');
                 const data = await res.json();
                 const found = data.find((g: Game) => g.id === id);
                 setGame(found);
@@ -48,7 +48,7 @@ export default function GameDetailsPage() {
 
     const checkOwnership = async (user: string) => {
         try {
-            const res = await fetch(`http://127.0.0.1:18080/games/library/${user}`);
+            const res = await fetch(`/api/games/library/${user}`);
             const data = await res.json();
             const owned = data.find((g: Game) => g.id === id);
             if (owned) setIsOwned(true);

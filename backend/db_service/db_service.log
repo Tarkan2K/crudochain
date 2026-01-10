@@ -1,8 +1,0 @@
-🚀 DB Service running on http://localhost:3001
-❌ MongoDB Connection Error: Error: queryTxt ETIMEOUT cluster0.mn6pi5t.mongodb.net
-    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17) {
-  errno: undefined,
-  code: 'ETIMEOUT',
-  syscall: 'queryTxt',
-  hostname: 'cluster0.mn6pi5t.mongodb.net'
-}

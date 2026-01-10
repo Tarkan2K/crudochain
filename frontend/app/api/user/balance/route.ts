@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-
-const DB_SERVICE_URL = 'http://127.0.0.1:3001';
+import dbConnect from '@/lib/mongodb';
+import User from '@/models/User';
 
 export async function GET(req: Request) {
     try {
@@ -12,12 +12,14 @@ export async function GET(req: Request) {
             return NextResponse.json({ error: 'User ID or Email is required' }, { status: 400 });
         }
 
-        const query = new URLSearchParams();
-        if (userId) query.append('userId', userId);
-        if (email) query.append('email', email);
+        await dbConnect();
 
-        const res = await fetch(`${DB_SERVICE_URL}/users/find?${query.toString()}`);
-        const user = await res.json();
+        let user;
+        if (userId) {
+            user = await User.findById(userId);
+        } else if (email) {
+            user = await User.findOne({ email });
+        }
 
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });

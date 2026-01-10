@@ -23,7 +23,7 @@ export default function PlayGamePage() {
         // For now, we just load it.
         const fetchGame = async () => {
             try {
-                const res = await fetch('http://127.0.0.1:18080/games/list');
+                const res = await fetch('/api/games/list');
                 const games = await res.json();
                 const foundGame = games.find((g: any) => g.id === id);
 

@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import dbConnect from "@/lib/mongodb";
+import User from "@/models/User";
 
 const handler = NextAuth({
     providers: [
@@ -16,9 +18,8 @@ const handler = NextAuth({
                 }
 
                 try {
-                    // Fetch user from DB Service
-                    const res = await fetch(`http://127.0.0.1:3001/users/find?email=${credentials.email}`);
-                    const user = await res.json();
+                    await dbConnect();
+                    const user = await User.findOne({ email: credentials.email });
 
                     if (!user) {
                         throw new Error('No user found with this email');
@@ -31,7 +32,7 @@ const handler = NextAuth({
                     }
 
                     return {
-                        id: user.id || user._id, // Handle both
+                        id: user._id.toString(),
                         name: user.name,
                         email: user.email,
                         walletAddress: user.walletAddress,
