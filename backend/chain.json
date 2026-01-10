@@ -1,0 +1,16 @@
+[
+    {
+        "data": {
+            "amount": 1000000000,
+            "from": "SYSTEM",
+            "signature": "GENESIS",
+            "to": "be45e02d8cbe78a506257c2e6a4bfa26222cff54e79448d1e5b29636b795878b",
+            "type": "genesis_mint"
+        },
+        "hash": "761ded402a627b5c0cd41e4c7a53e97b83826c3fad18d2baa9c42f08c00fd7c8",
+        "index": 0,
+        "nonce": 0,
+        "prevHash": "0",
+        "timestamp": 1767767497
+    }
+]

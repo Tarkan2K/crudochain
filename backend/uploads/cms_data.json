@@ -1,0 +1,20 @@
+[
+    {
+        "author": "Admin",
+        "content": "This is the start of something big.",
+        "createdAt": 1767830276,
+        "id": "1767830276_NEWS",
+        "imageUrl": "https://picsum.photos/seed/news1/800/400",
+        "title": "Welcome to CrudoChain News",
+        "type": "NEWS"
+    },
+    {
+        "author": "Satoshi",
+        "content": "Blockchain meets gameplay in an unprecedented way.",
+        "createdAt": 1767830276,
+        "id": "1767830276_BLOG",
+        "imageUrl": "https://picsum.photos/seed/blog1/800/400",
+        "title": "The Future of Gaming",
+        "type": "BLOG"
+    }
+]

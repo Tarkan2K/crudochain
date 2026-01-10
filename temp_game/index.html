@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crudo Clicker</title>
+    <style>
+        body {
+            background-color: #0f0518;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        button {
+            background: linear-gradient(45deg, #ff00cc, #3333ff);
+            border: none;
+            padding: 20px 40px;
+            font-size: 24px;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 204, 0.5);
+            transition: transform 0.1s;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Crudo Clicker</h1>
+    <p>Score: <span id="score">0</span></p>
+    <button onclick="clickMe()">CLICK ME!</button>
+
+    <script>
+        let score = 0;
+        function clickMe() {
+            score++;
+            document.getElementById('score').innerText = score;
+        }
+    </script>
+</body>
+</html>

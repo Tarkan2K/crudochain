@@ -1,0 +1,11 @@
+[
+    {
+        "id": "admin_1",
+        "name": "Admin",
+        "email": "admin@crudochain.com",
+        "password": "$2b$10$VEaMpxfVap55mB37oDkWbuNU8VcKjfZ4z8C4j8qJMNGntIm.Vz8GW",
+        "walletAddress": "ADMIN_WALLET_ADDRESS",
+        "role": "admin",
+        "createdAt": "2026-01-08T00:08:45.876Z"
+    }
+]
