@@ -26,7 +26,7 @@ export default function LibraryPage() {
 
         const fetchLibrary = async () => {
             try {
-                const res = await fetch(`/api/games/library/${userAddress}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/games/library/${userAddress}`);
                 const data = await res.json();
                 setGames(data);
             } catch (e) {

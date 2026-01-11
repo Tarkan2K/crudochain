@@ -23,7 +23,7 @@ export default function WalletPage() {
 
     const handleClaim = async () => {
         try {
-            const res = await fetch('/api/wallet/claim', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/wallet/claim`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ address: userAddress })

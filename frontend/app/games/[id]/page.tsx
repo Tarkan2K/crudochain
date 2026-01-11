@@ -35,7 +35,7 @@ export default function GameDetailsPage() {
 
         const fetchGame = async () => {
             try {
-                const res = await fetch('/api/games/list');
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/games/list`);
                 const data = await res.json();
                 const found = data.find((g: Game) => g.id === id);
                 setGame(found);
