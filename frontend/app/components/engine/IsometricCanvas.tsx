@@ -30,6 +30,15 @@ export default function IsometricCanvas({ character }: IsometricCanvasProps) {
     const playerPos = useRef({ x: 5, y: 5 });
     const targetPos = useRef({ x: 5, y: 5 }); // A donde se mueve
 
+    // Sprite Loading
+    const [sprite, setSprite] = useState<HTMLImageElement | null>(null);
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = '/assets/images/cavernicola.png';
+        img.onload = () => setSprite(img);
+    }, []);
+
     // Mapa de prueba (0 = Pasto, 1 = Muro)
     const map = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -150,61 +159,40 @@ export default function IsometricCanvas({ character }: IsometricCanvasProps) {
             ctx.ellipse(pos.x, pos.y + TILE_HEIGHT / 2, 12, 6, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            const skinColor = character?.skinColor || '#FCD5B5';
-            const hairStyle = character?.hairStyle || 0;
+            if (sprite) {
+                // Dibujar Sprite
+                const scale = 1.5; // Escala del sprite
+                const spriteWidth = 64 * scale;
+                const spriteHeight = 64 * scale;
 
-            // --- CUERPO ---
-            ctx.fillStyle = skinColor;
-            // Torso
-            ctx.fillRect(pos.x - 10, pos.y - 35, 20, 25);
-            // Piernas (Simples)
-            ctx.fillStyle = '#4a3b2a'; // Pantalones de piel
-            ctx.fillRect(pos.x - 10, pos.y - 10, 9, 10);
-            ctx.fillRect(pos.x + 1, pos.y - 10, 9, 10);
-
-            // --- CABEZA ---
-            ctx.fillStyle = skinColor;
-            ctx.fillRect(pos.x - 9, pos.y - 50, 18, 18);
-
-            // Ojos
-            ctx.fillStyle = 'black';
-            ctx.fillRect(pos.x - 5, pos.y - 45, 2, 2);
-            ctx.fillRect(pos.x + 3, pos.y - 45, 2, 2);
-
-            // --- PELO (Procedural según estilo) ---
-            ctx.fillStyle = '#2c3e50'; // Color de pelo base (podría ser customizable también)
-
-            if (hairStyle === 0) { // Rizado / Afro
-                ctx.beginPath();
-                ctx.arc(pos.x, pos.y - 52, 12, 0, Math.PI * 2);
-                ctx.fill();
-            } else if (hairStyle === 1) { // Largo / Blanco (Anciano)
-                ctx.fillStyle = '#ecf0f1';
-                ctx.fillRect(pos.x - 10, pos.y - 52, 20, 20);
-            } else if (hairStyle === 3) { // Rubio
-                ctx.fillStyle = '#f1c40f';
-                ctx.fillRect(pos.x - 10, pos.y - 52, 20, 8);
-                ctx.fillRect(pos.x - 10, pos.y - 52, 4, 20);
-                ctx.fillRect(pos.x + 6, pos.y - 52, 4, 20);
-            } else if (hairStyle === 4) { // Melena León
-                ctx.fillStyle = '#e67e22';
-                ctx.beginPath();
-                ctx.arc(pos.x, pos.y - 48, 14, 0, Math.PI * 2);
-                ctx.fill();
+                // Dibujar imagen centrada en X y ajustada en Y para que los pies toquen el suelo
+                ctx.drawImage(
+                    sprite,
+                    pos.x - spriteWidth / 2,
+                    pos.y - spriteHeight + 16, // Ajuste manual para pies
+                    spriteWidth,
+                    spriteHeight
+                );
+            } else {
+                // Fallback (Cuadrado Rojo) si no ha cargado
+                ctx.fillStyle = '#e74c3c';
+                ctx.fillRect(pos.x - 10, pos.y - 30, 20, 30);
             }
-            // Estilo 2 es calvo (no dibuja nada)
 
             // --- NOMBRE ---
             ctx.fillStyle = 'white';
-            ctx.font = '10px monospace';
+            ctx.font = 'bold 12px monospace';
             ctx.textAlign = 'center';
-            ctx.fillText(character?.name || 'Tu', pos.x, pos.y - 60);
+            ctx.shadowColor = 'black';
+            ctx.shadowBlur = 4;
+            ctx.fillText(character?.name || 'Tu', pos.x, pos.y - 80);
+            ctx.shadowBlur = 0;
         };
 
         render();
 
         return () => cancelAnimationFrame(animationFrameId);
-    }, [character]); // Re-render si cambia el personaje
+    }, [character, sprite]); // Re-render si cambia el personaje o carga el sprite
 
     // --- INPUT HANDLING ---
     useEffect(() => {
