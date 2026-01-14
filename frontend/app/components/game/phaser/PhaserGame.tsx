@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import Phaser from 'phaser';
-import config from './config';
 
 interface PhaserGameProps {
     onInteraction: (type: string, active: boolean) => void;
@@ -10,18 +8,29 @@ interface PhaserGameProps {
 }
 
 export default function PhaserGame({ onInteraction, initialPosition }: PhaserGameProps) {
-    const gameRef = useRef<Phaser.Game | null>(null);
+    const gameRef = useRef<any>(null); // Use any to avoid type issues with dynamic import
 
     useEffect(() => {
         if (gameRef.current) return;
 
-        // Initialize Phaser Game
-        gameRef.current = new Phaser.Game(config);
+        const initPhaser = async () => {
+            try {
+                const Phaser = (await import('phaser')).default;
+                const { default: config } = await import('./config');
 
-        // Pass initial data to Registry
-        if (initialPosition) {
-            gameRef.current.registry.set('initialPosition', initialPosition);
-        }
+                // Initialize Phaser Game
+                gameRef.current = new Phaser.Game(config);
+
+                // Pass initial data to Registry
+                if (initialPosition) {
+                    gameRef.current.registry.set('initialPosition', initialPosition);
+                }
+            } catch (error) {
+                console.error('Failed to load Phaser:', error);
+            }
+        };
+
+        initPhaser();
 
         // Event Listener for Game Interactions
         const handleGameInteraction = (e: Event) => {
@@ -63,7 +72,7 @@ export default function PhaserGame({ onInteraction, initialPosition }: PhaserGam
             gameRef.current?.destroy(true);
             gameRef.current = null;
         };
-    }, [onInteraction]);
+    }, [onInteraction, initialPosition]);
 
     return <div id="phaser-game" className="w-full h-full" />;
 }
