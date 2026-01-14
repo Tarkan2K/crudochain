@@ -97,8 +97,10 @@ export default class GameScene extends Phaser.Scene {
         this.player.setScale(1.5); // Hi-Bit scale
 
         // Adjust hitbox
-        this.player.body.setSize(32, 32);
-        this.player.body.setOffset(16, 32); // Center hitbox at feet
+        if (this.player.body) {
+            this.player.body.setSize(32, 32);
+            this.player.body.setOffset(16, 32); // Center hitbox at feet
+        }
     }
 
     private setupCamera() {

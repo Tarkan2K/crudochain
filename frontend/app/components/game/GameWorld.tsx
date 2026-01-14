@@ -4,9 +4,11 @@ import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import MiniGameModal from './MiniGameModal';
 import CavernInterior from './CavernInterior';
-import PhaserGame from './phaser/PhaserGame'; // Updated import
+import dynamic from 'next/dynamic';
 import StoreModal from './StoreModal'; // Import StoreModal
 import CavernModal from './CavernModal'; // Import CavernModal
+
+const PhaserGame = dynamic(() => import('./phaser/PhaserGame'), { ssr: false });
 import { useGame } from '../../context/GameContext';
 
 export default function GameWorld() {

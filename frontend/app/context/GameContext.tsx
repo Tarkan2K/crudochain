@@ -12,6 +12,9 @@ interface Character {
     skinColor: string;
     hairStyle: number;
     name: string;
+    gameData?: {
+        position: { x: number, y: number };
+    };
 }
 
 interface GameContextType {
