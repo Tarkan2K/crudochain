@@ -8,6 +8,12 @@ interface Item {
     icon: string;
 }
 
+interface Character {
+    skinColor: string;
+    hairStyle: number;
+    name: string;
+}
+
 interface GameContextType {
     inventory: Item[];
     addItem: (id: string, name: string, icon: string, amount: number) => void;
@@ -19,6 +25,7 @@ interface GameContextType {
     addXp: (amount: number) => void;
     saveGame: () => Promise<void>;
     buyItem: (item: Item, cost: number) => Promise<boolean>;
+    character: Character | null;
 }
 
 const GameContext = createContext<GameContextType>({
@@ -32,6 +39,7 @@ const GameContext = createContext<GameContextType>({
     addXp: () => { },
     saveGame: async () => { },
     buyItem: async () => false,
+    character: null,
 });
 
 export function GameProvider({ children }: { children: ReactNode }) {
@@ -40,6 +48,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     const [playerPos, setPlayerPos] = useState({ x: 20, y: 20 });
     const [xp, setXp] = useState(0);
     const [level, setLevel] = useState(1);
+    const [character, setCharacter] = useState<Character | null>(null);
     const [loaded, setLoaded] = useState(false);
 
     // Ref to track if we need to save
@@ -60,6 +69,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
                         if (data.gameData.position) setPlayerPos(data.gameData.position);
                         if (data.gameData.xp) setXp(data.gameData.xp);
                         if (data.gameData.level) setLevel(data.gameData.level);
+                    }
+                    if (data.character) {
+                        setCharacter({
+                            ...data.character,
+                            name: data.name || 'Cavernícola'
+                        });
                     }
                     setLoaded(true);
                 })
@@ -174,7 +189,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <GameContext.Provider value={{ inventory, addItem, removeItem, playerPos, movePlayer, xp, level, addXp, saveGame, buyItem }}>
+        <GameContext.Provider value={{ inventory, addItem, removeItem, playerPos, movePlayer, xp, level, addXp, saveGame, buyItem, character }}>
             {children}
         </GameContext.Provider>
     );

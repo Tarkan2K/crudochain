@@ -7,44 +7,32 @@ import MiniGameModal from './MiniGameModal';
 import { useGame } from '../../context/GameContext';
 
 export default function GameWorld() {
-    const { playerPos, movePlayer } = useGame();
+    const { playerPos, movePlayer, character } = useGame();
     const [activeMiniGame, setActiveMiniGame] = useState<'MINING' | 'CASINO' | null>(null);
 
-    // Mock Map Data
-    const TILE_SIZE = 64;
+    // Map Config
+    const TILE_SIZE = 48;
     const MAP_SIZE = 40;
 
     const [interactables, setInteractables] = useState<{ id: number, type: 'ROCK' | 'TREE' | 'CASINO', x: number, y: number }[]>([]);
 
     useEffect(() => {
         const objs = [];
-        objs.push({ id: 999, type: 'CASINO' as const, x: 25, y: 25 });
+        objs.push({ id: 999, type: 'CASINO' as const, x: 20, y: 15 });
 
-        for (let i = 0; i < 30; i++) {
+        // Generate Random World
+        for (let i = 0; i < 50; i++) {
             const angle = Math.random() * Math.PI * 2;
-            const radius = 16 + Math.random() * 4;
+            const radius = 10 + Math.random() * 15;
             objs.push({
                 id: i,
-                type: Math.random() > 0.5 ? 'ROCK' as const : 'TREE' as const,
+                type: Math.random() > 0.6 ? 'ROCK' as const : 'TREE' as const,
                 x: Math.floor(20 + Math.cos(angle) * radius),
                 y: Math.floor(20 + Math.sin(angle) * radius)
             });
         }
         setInteractables(objs);
     }, []);
-
-    const handleMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        // Simple movement logic: Move to clicked tile
-        // In a real game, we'd do pathfinding. Here, we just teleport or lerp.
-        // For "Click-to-Move" feel, let's just update target.
-
-        // Calculate tile from click is hard with CSS transforms. 
-        // Simplified: Just move randomly for now or use buttons? 
-        // Actually, let's make it WASD or Arrow Keys for better control in this prototype?
-        // Or just click adjacent tiles.
-
-        // Let's implement simple WASD listener instead for smoother "game" feel.
-    };
 
     // WASD Movement
     useEffect(() => {
@@ -59,6 +47,13 @@ export default function GameWorld() {
                 case 'd': case 'ArrowRight': newX += 1; break;
             }
 
+            // Collision Check (Simple)
+            const collision = interactables.find(obj => obj.x === newX && obj.y === newY);
+            if (collision) {
+                // Interaction logic could go here
+                return;
+            }
+
             // Boundary Check
             if (newX >= 0 && newX < MAP_SIZE && newY >= 0 && newY < MAP_SIZE) {
                 movePlayer(newX, newY);
@@ -67,10 +62,15 @@ export default function GameWorld() {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [playerPos, movePlayer]);
+    }, [playerPos, movePlayer, interactables]);
+
+    // Character Appearance
+    const skinColor = character?.skinColor || '#FCD5B5';
+    const hairStyle = character?.hairStyle || 0;
+    const HAIR_STYLES = ['🦱', '🦳', '🦲', '👱', '🦁'];
 
     return (
-        <div className="relative w-full h-full overflow-hidden bg-[#1a1a2e]">
+        <div className="relative w-full h-full overflow-hidden bg-[#2d3436]">
             {/* MiniGame Modal */}
             <AnimatePresence>
                 {activeMiniGame && (
@@ -85,28 +85,31 @@ export default function GameWorld() {
                     x: -playerPos.x * TILE_SIZE,
                     y: -playerPos.y * TILE_SIZE,
                 }}
-                transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                transition={{ type: "spring", stiffness: 150, damping: 25 }}
                 style={{
                     width: MAP_SIZE * TILE_SIZE,
                     height: MAP_SIZE * TILE_SIZE,
-                    rotateX: 60,
-                    rotateZ: 45,
+                    // Pokemon Style Perspective
+                    transform: 'scale(1.5)',
                 }}
             >
-                {/* Ground (Concentric Rings) */}
-                <div className="absolute inset-0 bg-green-900 border-4 border-green-900 shadow-2xl overflow-hidden">
-                    {/* Era 7 (Center) - Neon */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-purple-900/50 border-4 border-purple-500 shadow-[0_0_100px_rgba(168,85,247,0.5)] z-0"></div>
+                {/* Ground Layer */}
+                <div className="absolute inset-0 bg-[#7ea04d] shadow-2xl overflow-hidden rounded-3xl border-[20px] border-[#5c7a36]">
+                    {/* Texture Pattern */}
+                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#5c7a36 2px, transparent 2px)', backgroundSize: '16px 16px' }}></div>
 
-                    {/* Grid */}
-                    <div className="absolute inset-0 grid grid-cols-[repeat(40,1fr)] grid-rows-[repeat(40,1fr)] pointer-events-none opacity-20">
+                    {/* Path to Casino */}
+                    <div className="absolute top-[15px] left-[20px] w-[100px] h-[300px] bg-[#e6c288] opacity-80 rounded-full blur-xl transform rotate-45"></div>
+
+                    {/* Grid (Optional, for debugging or style) */}
+                    {/* <div className="absolute inset-0 grid grid-cols-[repeat(40,1fr)] grid-rows-[repeat(40,1fr)] pointer-events-none opacity-5">
                         {Array.from({ length: MAP_SIZE * MAP_SIZE }).map((_, i) => (
-                            <div key={i} className="border border-white/10"></div>
+                            <div key={i} className="border border-black/20"></div>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
 
-                {/* Interactables */}
+                {/* Objects Layer (Sorted by Y for depth) */}
                 {interactables.map((obj) => (
                     <InteractableObject
                         key={obj.id}
@@ -115,12 +118,9 @@ export default function GameWorld() {
                         y={obj.y}
                         tileSize={TILE_SIZE}
                         onInteract={() => {
-                            // Check distance
                             const dist = Math.sqrt(Math.pow(obj.x - playerPos.x, 2) + Math.pow(obj.y - playerPos.y, 2));
                             if (dist < 2) {
                                 setActiveMiniGame(obj.type === 'CASINO' ? 'CASINO' : 'MINING');
-                            } else {
-                                alert("Too far! Get closer.");
                             }
                         }}
                     />
@@ -128,28 +128,39 @@ export default function GameWorld() {
 
                 {/* Player Character */}
                 <motion.div
-                    className="absolute w-16 h-16 bg-orange-500 rounded-full shadow-lg z-20 flex items-center justify-center border-2 border-white"
+                    className="absolute z-20 flex flex-col items-center justify-center pointer-events-none"
                     animate={{
                         left: playerPos.x * TILE_SIZE,
                         top: playerPos.y * TILE_SIZE,
                     }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    style={{
-                        transform: 'translateZ(30px) rotateZ(-45deg) rotateX(-60deg)', // Counter-rotate to face screen
-                    }}
+                    style={{ width: TILE_SIZE, height: TILE_SIZE }}
                 >
-                    <span className="text-2xl">🦴</span>
+                    {/* Character Sprite */}
+                    <div className="relative w-10 h-10">
+                        {/* Body */}
+                        <div
+                            className="absolute inset-0 rounded-full border-2 border-black/20 shadow-sm"
+                            style={{ backgroundColor: skinColor }}
+                        ></div>
+                        {/* Eyes */}
+                        <div className="absolute top-3 left-2 w-1.5 h-1.5 bg-black rounded-full"></div>
+                        <div className="absolute top-3 right-2 w-1.5 h-1.5 bg-black rounded-full"></div>
+                        {/* Hair */}
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xl filter drop-shadow-md">
+                            {HAIR_STYLES[hairStyle]}
+                        </div>
+                        {/* Name Tag */}
+                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-black/50 text-white text-[8px] px-1 rounded whitespace-nowrap backdrop-blur-sm">
+                            {character?.name || 'Tu'}
+                        </div>
+                    </div>
                 </motion.div>
 
             </motion.div>
 
-            {/* Fog of War / Vignette */}
-            <div className="absolute inset-0 pointer-events-none bg-radial-gradient from-transparent to-black/90"></div>
-
-            {/* Controls Hint */}
-            <div className="absolute bottom-8 left-8 text-white/50 font-mono text-xs pointer-events-none">
-                USE W,A,S,D TO MOVE
-            </div>
+            {/* Vignette */}
+            <div className="absolute inset-0 pointer-events-none bg-radial-gradient from-transparent via-transparent to-black/60"></div>
         </div>
     );
 }

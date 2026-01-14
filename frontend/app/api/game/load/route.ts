@@ -16,7 +16,11 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'User not found' }, { status: 404 });
         }
 
-        return NextResponse.json({ gameData: user.gameData || {} });
+        return NextResponse.json({
+            gameData: user.gameData || {},
+            character: user.character,
+            name: user.name
+        });
     } catch (error: any) {
         console.error('Error loading game:', error);
         return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });

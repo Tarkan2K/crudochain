@@ -16,16 +16,16 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'User not found' }, { status: 404 });
         }
 
-        if (user.crdoBalance < amount) {
+        if (user.balance < amount) {
             return NextResponse.json({ message: 'Insufficient funds' }, { status: 400 });
         }
 
-        user.crdoBalance -= amount;
+        user.balance -= amount;
         await user.save();
 
         return NextResponse.json({
             message: 'Purchase successful',
-            newBalance: user.crdoBalance
+            newBalance: user.balance
         });
     } catch (error: any) {
         console.error('Error processing purchase:', error);
