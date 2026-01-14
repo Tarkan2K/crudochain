@@ -4,20 +4,26 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import InteractableObject from './InteractableObject';
 import MiniGameModal from './MiniGameModal';
+import CavernInterior from './CavernInterior';
 import { useGame } from '../../context/GameContext';
 
 export default function GameWorld() {
     const { playerPos, movePlayer, character } = useGame();
     const [activeMiniGame, setActiveMiniGame] = useState<'MINING' | 'CASINO' | null>(null);
+    const [viewMode, setViewMode] = useState<'WORLD' | 'CAVERN'>('WORLD');
+    const [isZooming, setIsZooming] = useState(true);
 
     // Map Config
     const TILE_SIZE = 48;
     const MAP_SIZE = 40;
+    const CAVERN_ENTRANCE = { x: 20, y: 20 };
 
-    const [interactables, setInteractables] = useState<{ id: number, type: 'ROCK' | 'TREE' | 'CASINO', x: number, y: number }[]>([]);
+    const [interactables, setInteractables] = useState<{ id: number, type: 'ROCK' | 'TREE' | 'CASINO' | 'CAVERN', x: number, y: number }[]>([]);
 
     useEffect(() => {
         const objs = [];
+        // Cavern Entrance (Home)
+        objs.push({ id: 888, type: 'CAVERN' as const, x: CAVERN_ENTRANCE.x, y: CAVERN_ENTRANCE.y });
         objs.push({ id: 999, type: 'CASINO' as const, x: 20, y: 15 });
 
         // Generate Random World
@@ -32,10 +38,18 @@ export default function GameWorld() {
             });
         }
         setInteractables(objs);
+
+        // Initial Zoom Sequence
+        setTimeout(() => {
+            setViewMode('CAVERN');
+            setIsZooming(false);
+        }, 2500);
     }, []);
 
     // WASD Movement
     useEffect(() => {
+        if (viewMode === 'CAVERN') return;
+
         const handleKeyDown = (e: KeyboardEvent) => {
             let newX = playerPos.x;
             let newY = playerPos.y;
@@ -50,7 +64,9 @@ export default function GameWorld() {
             // Collision Check (Simple)
             const collision = interactables.find(obj => obj.x === newX && obj.y === newY);
             if (collision) {
-                // Interaction logic could go here
+                if (collision.type === 'CAVERN') {
+                    setViewMode('CAVERN');
+                }
                 return;
             }
 
@@ -62,12 +78,16 @@ export default function GameWorld() {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [playerPos, movePlayer, interactables]);
+    }, [playerPos, movePlayer, interactables, viewMode]);
 
     // Character Appearance
     const skinColor = character?.skinColor || '#FCD5B5';
     const hairStyle = character?.hairStyle || 0;
     const HAIR_STYLES = ['🦱', '🦳', '🦲', '👱', '🦁'];
+
+    if (viewMode === 'CAVERN') {
+        return <CavernInterior onExit={() => setViewMode('WORLD')} />;
+    }
 
     return (
         <div className="relative w-full h-full overflow-hidden bg-[#2d3436]">
@@ -81,16 +101,24 @@ export default function GameWorld() {
             {/* Camera Container */}
             <motion.div
                 className="absolute top-1/2 left-1/2 origin-center"
-                animate={{
-                    x: -playerPos.x * TILE_SIZE,
-                    y: -playerPos.y * TILE_SIZE,
+                initial={{
+                    x: -CAVERN_ENTRANCE.x * TILE_SIZE,
+                    y: -CAVERN_ENTRANCE.y * TILE_SIZE,
+                    scale: 1,
                 }}
-                transition={{ type: "spring", stiffness: 150, damping: 25 }}
+                animate={{
+                    x: isZooming ? -CAVERN_ENTRANCE.x * TILE_SIZE : -playerPos.x * TILE_SIZE,
+                    y: isZooming ? -CAVERN_ENTRANCE.y * TILE_SIZE : -playerPos.y * TILE_SIZE,
+                    scale: isZooming ? 3 : 1.5, // Zoom in effect
+                }}
+                transition={{
+                    duration: isZooming ? 2.5 : 0.5,
+                    ease: "easeInOut",
+                    type: isZooming ? "tween" : "spring"
+                }}
                 style={{
                     width: MAP_SIZE * TILE_SIZE,
                     height: MAP_SIZE * TILE_SIZE,
-                    // Pokemon Style Perspective
-                    transform: 'scale(1.5)',
                 }}
             >
                 {/* Ground Layer */}
@@ -120,7 +148,11 @@ export default function GameWorld() {
                         onInteract={() => {
                             const dist = Math.sqrt(Math.pow(obj.x - playerPos.x, 2) + Math.pow(obj.y - playerPos.y, 2));
                             if (dist < 2) {
-                                setActiveMiniGame(obj.type === 'CASINO' ? 'CASINO' : 'MINING');
+                                if (obj.type === 'CAVERN') {
+                                    setViewMode('CAVERN');
+                                } else {
+                                    setActiveMiniGame(obj.type === 'CASINO' ? 'CASINO' : 'MINING');
+                                }
                             }
                         }}
                     />
