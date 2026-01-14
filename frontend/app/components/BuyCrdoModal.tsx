@@ -48,7 +48,17 @@ export default function BuyCrdoModal({ isOpen, onClose }: BuyCrdoModalProps) {
                     userId: userId
                 })
             });
-            const data = await res.json();
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(`Server returned ${res.status}: ${text}`);
+            }
+
+            const text = await res.text();
+            if (!text) {
+                throw new Error("Empty response from server");
+            }
+            const data = JSON.parse(text);
+
             if (data.init_point) {
                 window.location.href = data.init_point;
             } else {
