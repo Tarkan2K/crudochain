@@ -35,11 +35,13 @@ export default function CharacterCreator({ onComplete }: CharacterCreatorProps) 
             if (res.ok) {
                 onComplete();
             } else {
-                alert('Error creating character');
+                const text = await res.text();
+                console.error("Server Error:", text);
+                alert(`Error creating character: ${text}`);
             }
-        } catch (e) {
+        } catch (e: any) {
             console.error(e);
-            alert('Error connecting to server');
+            alert(`Error connecting to server: ${e.message}`);
         } finally {
             setLoading(false);
         }
