@@ -23,7 +23,7 @@ exports.createPreference = async (req, res) => {
                     {
                         title: title,
                         unit_price: Number(price),
-                        quantity: Number(quantity),
+                        quantity: 1,
                     }
                 ],
                 metadata: {
