@@ -26,7 +26,7 @@ export default function GameWorld() {
             </AnimatePresence>
 
             {/* Custom Isometric Engine */}
-            <IsometricCanvas />
+            <IsometricCanvas character={character} />
 
             {/* UI Overlay */}
             <div className="absolute top-4 left-4 pointer-events-none">

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 
 interface InteractableObjectProps {
-    type: 'ROCK' | 'TREE' | 'CASINO';
+    type: 'ROCK' | 'TREE' | 'CASINO' | 'CAVERN';
     x: number;
     y: number;
     tileSize: number;
@@ -16,6 +16,7 @@ export default function InteractableObject({ type, x, y, tileSize, onInteract }:
             case 'ROCK': return { emoji: '🪨', color: 'bg-gray-600' };
             case 'TREE': return { emoji: '🌲', color: 'bg-green-700' };
             case 'CASINO': return { emoji: '🎰', color: 'bg-purple-900' };
+            case 'CAVERN': return { emoji: '🏠', color: 'bg-orange-900' };
             default: return { emoji: '❓', color: 'bg-gray-500' };
         }
     };

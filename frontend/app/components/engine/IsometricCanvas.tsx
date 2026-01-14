@@ -13,17 +13,20 @@ interface Point {
     y: number;
 }
 
-interface Entity {
-    x: number; // Coordenada lógica (grid)
-    y: number;
-    type: 'PLAYER' | 'NPC';
+interface CharacterData {
+    skinColor: string;
+    hairStyle: number;
+    name: string;
 }
 
-export default function IsometricCanvas() {
+interface IsometricCanvasProps {
+    character?: CharacterData | null;
+}
+
+export default function IsometricCanvas({ character }: IsometricCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     // Estado del Jugador (Posición lógica exacta)
-    // Usamos useRef para el loop de renderizado para evitar re-renders de React
     const playerPos = useRef({ x: 5, y: 5 });
     const targetPos = useRef({ x: 5, y: 5 }); // A donde se mueve
 
@@ -42,8 +45,6 @@ export default function IsometricCanvas() {
     ];
 
     // --- MATEMÁTICAS ISOMÉTRICAS ---
-
-    // Convierte coordenadas de Grid (x,y) a Pantalla (px, py)
     const cartesianToIso = (x: number, y: number): Point => {
         const isoX = (x - y) * (TILE_WIDTH / 2);
         const isoY = (x + y) * (TILE_HEIGHT / 2);
@@ -59,14 +60,12 @@ export default function IsometricCanvas() {
 
         let animationFrameId: number;
 
-        // Función de Renderizado (60 FPS)
         const render = () => {
             // 1. Limpiar Canvas
-            ctx.fillStyle = '#1a1a2e'; // Fondo oscuro
+            ctx.fillStyle = '#1a1a2e';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // 2. Centrar la cámara en el jugador
-            // Calculamos dónde está el jugador en pixeles
+            // 2. Centrar la cámara
             const playerIso = cartesianToIso(playerPos.current.x, playerPos.current.y);
             const offsetX = canvas.width / 2 - playerIso.x;
             const offsetY = canvas.height / 2 - playerIso.y;
@@ -74,9 +73,8 @@ export default function IsometricCanvas() {
             ctx.save();
             ctx.translate(offsetX, offsetY);
 
-            // 3. Lógica de Movimiento (Interpolación Lineal - Lerp)
-            // Acercamos suavemente la posición actual al destino
-            const speed = 0.1; // Velocidad de interpolación
+            // 3. Lógica de Movimiento (Lerp)
+            const speed = 0.1;
             const dx = targetPos.current.x - playerPos.current.x;
             const dy = targetPos.current.y - playerPos.current.y;
 
@@ -87,11 +85,7 @@ export default function IsometricCanvas() {
             else playerPos.current.y = targetPos.current.y;
 
 
-            // 4. ALGORITMO DEL PINTOR (Painter's Algorithm)
-            // Dibujamos de atrás hacia adelante (Back-to-Front)
-            // En isométrico, la profundidad es (x + y).
-            // Iteramos el mapa de tal forma que dibujamos las filas superiores primero.
-
+            // 4. ALGORITMO DEL PINTOR
             for (let y = 0; y < MAP_SIZE; y++) {
                 for (let x = 0; x < MAP_SIZE; x++) {
                     drawTile(ctx, x, y, map[y][x]);
@@ -99,16 +93,10 @@ export default function IsometricCanvas() {
             }
 
             // 5. Dibujar al Jugador
-            // IMPORTANTE: Para que el jugador tenga profundidad correcta respecto a los muros,
-            // debería ordenarse junto con los tiles. 
-            // SIMPLIFICACIÓN: Aquí lo dibujamos después del suelo pero antes de los techos si hubiera.
-            // Para "Runescape Classic" real, el jugador debe ser parte del sort loop.
-            // Aquí lo dibujamos "encima" para simplificar la demo visual.
             drawPlayer(ctx, playerPos.current.x, playerPos.current.y);
 
             ctx.restore();
 
-            // Loop
             animationFrameId = requestAnimationFrame(render);
         };
 
@@ -117,7 +105,6 @@ export default function IsometricCanvas() {
         const drawTile = (ctx: CanvasRenderingContext2D, x: number, y: number, type: number) => {
             const pos = cartesianToIso(x, y);
 
-            // Dibujar Suelo (Rombo)
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
             ctx.lineTo(pos.x + TILE_WIDTH / 2, pos.y + TILE_HEIGHT / 2);
@@ -125,20 +112,16 @@ export default function IsometricCanvas() {
             ctx.lineTo(pos.x - TILE_WIDTH / 2, pos.y + TILE_HEIGHT / 2);
             ctx.closePath();
 
-            // Color según tipo
             if (type === 1) { // MURO
-                // Base del muro
                 ctx.fillStyle = '#7f8c8d';
                 ctx.fill();
                 ctx.strokeStyle = '#566573';
                 ctx.stroke();
 
-                // Altura del muro (Extrusión falsa)
                 const wallHeight = 40;
                 ctx.fillStyle = '#95a5a6';
                 ctx.fillRect(pos.x - TILE_WIDTH / 2, pos.y - wallHeight + TILE_HEIGHT / 2, TILE_WIDTH, wallHeight);
 
-                // Techo del muro
                 ctx.fillStyle = '#bdc3c7';
                 ctx.beginPath();
                 ctx.moveTo(pos.x, pos.y - wallHeight);
@@ -150,9 +133,8 @@ export default function IsometricCanvas() {
                 ctx.stroke();
 
             } else { // PASTO
-                ctx.fillStyle = (x + y) % 2 === 0 ? '#2ecc71' : '#27ae60'; // Patrón ajedrezado sutil
+                ctx.fillStyle = (x + y) % 2 === 0 ? '#2ecc71' : '#27ae60';
                 ctx.fill();
-                // Borde suave
                 ctx.strokeStyle = '#1e8449';
                 ctx.lineWidth = 0.5;
                 ctx.stroke();
@@ -165,23 +147,64 @@ export default function IsometricCanvas() {
             // Sombra
             ctx.fillStyle = 'rgba(0,0,0,0.3)';
             ctx.beginPath();
-            ctx.ellipse(pos.x, pos.y + TILE_HEIGHT / 2, 10, 5, 0, 0, Math.PI * 2);
+            ctx.ellipse(pos.x, pos.y + TILE_HEIGHT / 2, 12, 6, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            // Cuerpo (Sprite Placeholder - Rectángulo Rojo)
-            const playerHeight = 30;
-            ctx.fillStyle = '#e74c3c';
-            ctx.fillRect(pos.x - 10, pos.y - playerHeight, 20, playerHeight);
+            const skinColor = character?.skinColor || '#FCD5B5';
+            const hairStyle = character?.hairStyle || 0;
 
-            // Cabeza
-            ctx.fillStyle = '#f1c40f';
-            ctx.fillRect(pos.x - 8, pos.y - playerHeight - 10, 16, 16);
+            // --- CUERPO ---
+            ctx.fillStyle = skinColor;
+            // Torso
+            ctx.fillRect(pos.x - 10, pos.y - 35, 20, 25);
+            // Piernas (Simples)
+            ctx.fillStyle = '#4a3b2a'; // Pantalones de piel
+            ctx.fillRect(pos.x - 10, pos.y - 10, 9, 10);
+            ctx.fillRect(pos.x + 1, pos.y - 10, 9, 10);
+
+            // --- CABEZA ---
+            ctx.fillStyle = skinColor;
+            ctx.fillRect(pos.x - 9, pos.y - 50, 18, 18);
+
+            // Ojos
+            ctx.fillStyle = 'black';
+            ctx.fillRect(pos.x - 5, pos.y - 45, 2, 2);
+            ctx.fillRect(pos.x + 3, pos.y - 45, 2, 2);
+
+            // --- PELO (Procedural según estilo) ---
+            ctx.fillStyle = '#2c3e50'; // Color de pelo base (podría ser customizable también)
+
+            if (hairStyle === 0) { // Rizado / Afro
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y - 52, 12, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (hairStyle === 1) { // Largo / Blanco (Anciano)
+                ctx.fillStyle = '#ecf0f1';
+                ctx.fillRect(pos.x - 10, pos.y - 52, 20, 20);
+            } else if (hairStyle === 3) { // Rubio
+                ctx.fillStyle = '#f1c40f';
+                ctx.fillRect(pos.x - 10, pos.y - 52, 20, 8);
+                ctx.fillRect(pos.x - 10, pos.y - 52, 4, 20);
+                ctx.fillRect(pos.x + 6, pos.y - 52, 4, 20);
+            } else if (hairStyle === 4) { // Melena León
+                ctx.fillStyle = '#e67e22';
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y - 48, 14, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            // Estilo 2 es calvo (no dibuja nada)
+
+            // --- NOMBRE ---
+            ctx.fillStyle = 'white';
+            ctx.font = '10px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(character?.name || 'Tu', pos.x, pos.y - 60);
         };
 
         render();
 
         return () => cancelAnimationFrame(animationFrameId);
-    }, []);
+    }, [character]); // Re-render si cambia el personaje
 
     // --- INPUT HANDLING ---
     useEffect(() => {
