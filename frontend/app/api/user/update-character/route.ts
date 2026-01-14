@@ -30,8 +30,8 @@ export async function POST(req: Request) {
         await user.save();
 
         return NextResponse.json({ message: 'Character created', user });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error updating character:', error);
-        return NextResponse.json({ message: 'Server error' }, { status: 500 });
+        return NextResponse.json({ message: error.message || 'Server error' }, { status: 500 });
     }
 }
