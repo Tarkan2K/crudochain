@@ -38,7 +38,12 @@ export default function BuyCrdoModal({ isOpen, onClose }: BuyCrdoModalProps) {
 
         setLoading(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/create_preference`, {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+            const fullUrl = `${apiUrl}/api/payment/create_preference`;
+            console.log("Attempting to fetch:", fullUrl);
+            console.log("API URL Env:", apiUrl);
+
+            const res = await fetch(fullUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
