@@ -23,8 +23,30 @@ const UserSchema = new mongoose.Schema({
         default: 0
     },
     character: {
-        skinColor: { type: String, default: '#FCD5B5' },
-        hairStyle: { type: Number, default: 0 },
+        skinColor: { type: String, default: '#ffdbac' },
+        hairStyle: { type: String, default: 'normal' }
+    },
+    gameData: {
+        xp: { type: Number, default: 0 },
+        level: { type: Number, default: 1 },
+        position: {
+            x: { type: Number, default: 20 },
+            y: { type: Number, default: 20 }
+        },
+        inventory: [{
+            id: String,
+            name: String,
+            icon: String,
+            count: Number
+        }],
+        cavern: {
+            unlocked: { type: Boolean, default: false },
+            decorations: [{
+                id: String,
+                x: Number,
+                y: Number
+            }]
+        }
     },
     era: {
         type: Number,

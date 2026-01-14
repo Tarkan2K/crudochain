@@ -41,6 +41,28 @@ const UserSchema = new mongoose.Schema({
         skinColor: { type: String, default: '#FCD5B5' },
         hairStyle: { type: Number, default: 0 },
     },
+    gameData: {
+        xp: { type: Number, default: 0 },
+        level: { type: Number, default: 1 },
+        position: {
+            x: { type: Number, default: 0 },
+            y: { type: Number, default: 0 },
+        },
+        inventory: [{
+            id: { type: String, required: true },
+            name: { type: String, required: true },
+            icon: { type: String, required: true },
+            count: { type: Number, default: 1 },
+        }],
+        cavern: {
+            unlocked: { type: Boolean, default: false },
+            decorations: [{
+                id: { type: String, required: true },
+                x: { type: Number, required: true },
+                y: { type: Number, required: true },
+            }],
+        },
+    },
 });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);
