@@ -40,8 +40,6 @@ export default function BuyCrdoModal({ isOpen, onClose }: BuyCrdoModalProps) {
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://crudochain.onrender.com';
             const fullUrl = `${apiUrl}/api/payment/create_preference`;
-            console.log("Attempting to fetch:", fullUrl);
-            console.log("API URL Env:", apiUrl);
 
             const res = await fetch(fullUrl, {
                 method: 'POST',
