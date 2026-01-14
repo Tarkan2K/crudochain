@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
-    crdoBalance: {
+    balance: {
         type: Number,
         default: 0,
     },

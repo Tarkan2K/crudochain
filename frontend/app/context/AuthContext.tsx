@@ -42,7 +42,7 @@ function AuthContent({ children }: { children: ReactNode }) {
     };
 
     const logout = () => {
-        signOut();
+        signOut({ callbackUrl: '/' });
     };
 
     const switchUser = (address: string) => {

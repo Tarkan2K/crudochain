@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Nav from '../components/Nav';
 import { useAuth } from '../context/AuthContext';
+import BuyCrdoModal from '../components/BuyCrdoModal';
 
 interface PortfolioItem {
     ticker: string;
@@ -16,10 +17,11 @@ export default function WalletPage() {
     const [crdoBalance, setCrdoBalance] = useState(0);
     const [isFounder, setIsFounder] = useState(false);
     const { userAddress, userId, email } = useAuth();
+    const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
 
     useEffect(() => {
-        if (userAddress) fetchWallet();
-    }, [userAddress]);
+        if (userId || email || userAddress) fetchWallet();
+    }, [userId, email, userAddress]);
 
     const handleClaim = async () => {
         try {
@@ -102,78 +104,72 @@ export default function WalletPage() {
         }
     };
 
-    const handleBuyCrdo = async () => {
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const handleBuyCrdo = () => {
         if (!userId && !email) {
             alert('Please log in first');
             return;
         }
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/create_preference`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title: 'CRDO Token Pack', // Add required title
-                    price: 10, // Example price, should be dynamic
-                    quantity: 100, // Example quantity
-                    userId: userId
-                })
-            });
-            const data = await res.json();
-            if (data.init_point) {
-                window.location.href = data.init_point;
-            } else {
-                alert('Error initiating payment');
-            }
-        } catch (e) {
-            console.error(e);
-            alert('Error connecting to payment server');
-        }
+        setIsBuyModalOpen(true);
     };
 
     return (
         <div className="min-h-screen bg-black text-white font-mono selection:bg-green-500 selection:text-black">
             <Nav />
+            <BuyCrdoModal isOpen={isBuyModalOpen} onClose={() => setIsBuyModalOpen(false)} />
 
             <div className="container mx-auto p-6 pt-24">
                 {/* Header Section */}
-                <div className="flex flex-col items-center mb-16 animate-fade-in">
-                    <div className="w-24 h-24 bg-gradient-to-br from-green-400 to-blue-500 rounded-full blur-2xl absolute opacity-20"></div>
-                    <h1 className="text-gray-400 text-sm tracking-[0.3em] uppercase mb-4">Total Net Worth</h1>
-                    <h2 className="text-7xl font-bold text-white mb-2 tracking-tighter">
-                        ${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        <span className="text-2xl text-gray-500 ml-2">USDT</span>
-                    </h2>
-                    <div className="flex items-center gap-2 bg-gray-900/50 px-4 py-2 rounded-full border border-gray-800 mt-4">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-xs text-gray-400 font-mono">{userAddress}</span>
+                <div className="flex flex-col items-center mb-24 animate-fade-in relative">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-green-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+                    <h1 className="text-gray-500 text-xs tracking-[0.4em] uppercase mb-6 font-bold">Total Net Worth</h1>
+
+                    <div className="flex items-baseline gap-2 mb-2">
+                        <span className="text-8xl font-black text-white tracking-tighter">
+                            {crdoBalance !== undefined ? crdoBalance.toLocaleString('es-CL') : '0'}
+                        </span>
+                        <span className="text-2xl font-bold text-gray-600">CRDO</span>
                     </div>
+
+                    <div className="mb-8 text-xl font-bold text-green-500/80 font-mono">
+                        ≈ ${(crdoBalance * 0.001).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                    </div>
+
+                    <div className="flex items-center gap-2 bg-[#1a1a1a] px-6 py-2 rounded-full border border-white/5">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(0,255,157,0.5)]"></div>
+                        <span className="text-xs text-gray-400 font-mono tracking-wider">{email || userAddress || 'Anon'}</span>
+                    </div>
+
                     {isFounder && (
-                        <div className="mt-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-4 py-1 rounded-full font-bold text-xs tracking-widest shadow-[0_0_15px_rgba(250,204,21,0.5)] animate-pulse">
-                            🏆 FOUNDER STATUS ACTIVE
+                        <div className="mt-6 bg-yellow-500/10 text-yellow-500 px-4 py-1 rounded-full font-bold text-[10px] tracking-widest border border-yellow-500/20">
+                            🏆 FOUNDER
                         </div>
                     )}
                 </div>
 
                 {/* Assets Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-24">
                     {/* Native Assets Card */}
-                    <div className="glass-panel p-8 rounded-3xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-3xl group-hover:bg-green-500/20 transition-all"></div>
-                        <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                            <span className="text-2xl">💎</span> Native Assets
+                    <div className="bg-[#0a0a0a] border border-white/5 p-8 rounded-[2rem] relative overflow-hidden group hover:border-green-500/20 transition-colors">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/5 rounded-full blur-[80px] group-hover:bg-green-500/10 transition-all"></div>
+
+                        <h3 className="text-lg font-bold mb-8 flex items-center gap-3">
+                            <span className="text-xl">💎</span> Native Assets
                         </h3>
 
-                        <div className="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5 hover:border-green-500/30 transition-all cursor-pointer">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-black font-bold">C</div>
+                        <div className="flex justify-between items-center p-6 bg-[#111] rounded-2xl border border-white/5 hover:border-green-500/20 transition-all cursor-pointer group/item">
+                            <div className="flex items-center gap-5">
+                                <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-black font-black text-xl shadow-[0_0_20px_rgba(0,255,157,0.3)]">C</div>
                                 <div>
-                                    <p className="font-bold">Crudo Coin</p>
-                                    <p className="text-xs text-gray-400">CRDO</p>
+                                    <p className="font-bold text-lg text-white group-hover/item:text-green-400 transition-colors">Crudo Coin</p>
+                                    <p className="text-xs text-gray-500 font-bold tracking-wider">CRDO</p>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="font-bold">{crdoBalance.toLocaleString()}</p>
-                                <p className="text-xs text-gray-500">${(crdoBalance * 0.001).toFixed(2)}</p>
+                                <p className="font-bold text-xl text-white">{crdoBalance.toLocaleString()}</p>
+                                <p className="text-xs text-gray-500 font-mono">$0.00</p>
                             </div>
                         </div>
                     </div>
@@ -215,15 +211,18 @@ export default function WalletPage() {
                 <div className="flex justify-center gap-6 mt-12 flex-wrap">
                     <button
                         onClick={handleClaim}
-                        className="bg-yellow-400 text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-300 transition shadow-[0_0_20px_rgba(250,204,21,0.5)] animate-pulse"
+                        className="bg-yellow-400 text-black px-8 py-4 rounded-full font-bold hover:bg-yellow-300 transition-all shadow-[0_0_20px_rgba(250,204,21,0.5)] flex items-center gap-3 uppercase tracking-wider text-sm"
                     >
-                        🎁 CLAIM DAILY REWARD
+                        <span>🎁</span> Claim Daily Reward
                     </button>
-                    <button onClick={handleBuyCrdo} className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-full font-bold hover:from-green-400 hover:to-emerald-500 transition shadow-[0_0_20px_rgba(0,255,157,0.3)] flex items-center gap-2">
-                        💳 BUY $CRDO
+                    <button
+                        onClick={handleBuyCrdo}
+                        className={`bg-green-500 text-white px-10 py-4 rounded-full font-black hover:bg-green-400 transition-all shadow-[0_0_30px_rgba(0,255,157,0.4)] flex items-center gap-3 uppercase tracking-wider text-sm hover:scale-105`}
+                    >
+                        <span>💳</span> Buy $CRDO
                     </button>
-                    <button className="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-700 transition border border-gray-700">
-                        SEND
+                    <button className="bg-[#1a1a1a] text-white border border-white/10 px-10 py-4 rounded-full font-bold hover:bg-white/10 transition-all flex items-center gap-3 uppercase tracking-wider text-sm">
+                        Send
                     </button>
                 </div>
             </div>

@@ -26,7 +26,7 @@ export async function GET(req: Request) {
         }
 
         return NextResponse.json({
-            crdoBalance: user.crdoBalance || 0,
+            crdoBalance: user.balance || 0,
             isFounder: user.isFounder || false
         });
     } catch (error) {

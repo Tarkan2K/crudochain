@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Nav() {
     const pathname = usePathname();
-    const { isLoggedIn, login, logout, userAddress, switchUser } = useAuth();
+    const { isLoggedIn, login, logout, userAddress, email } = useAuth();
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
     const isActive = (path: string) => pathname === path ? 'text-green-400' : 'text-gray-400 hover:text-white';
@@ -93,7 +93,7 @@ export default function Nav() {
                         <div className="flex items-center gap-2">
                             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                             <span className="text-[10px] font-mono tracking-widest text-gray-300">
-                                {userAddress.substring(0, 6)}...{userAddress.substring(userAddress.length - 4)}
+                                {email || userAddress}
                             </span>
                         </div>
 
@@ -114,6 +114,6 @@ export default function Nav() {
                     </div>
                 )}
             </div>
-        </nav>
+        </nav >
     );
 }

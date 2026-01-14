@@ -101,3 +101,23 @@ exports.seedAdmin = async () => {
         console.error('Error seeding admin:', error);
     }
 };
+
+// @desc    Get Admin Balance
+// @route   GET /api/auth/admin-balance
+// @access  Public
+exports.getAdminBalance = async (req, res) => {
+    try {
+        const adminEmail = 'admin@crudochain.com';
+        const admin = await User.findOne({ email: adminEmail });
+
+        if (admin) {
+            res.json({ balance: admin.balance });
+        } else {
+            // Fallback if admin not found (should be seeded)
+            res.json({ balance: 200000000 });
+        }
+    } catch (error) {
+        console.error('Error fetching admin balance:', error);
+        res.status(500).json({ message: 'Error fetching admin balance' });
+    }
+};

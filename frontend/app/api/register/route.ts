@@ -30,7 +30,7 @@ export async function POST(request: Request) {
             email,
             password: hashedPassword,
             walletAddress,
-            crdoBalance: 0,
+            balance: 0,
             isFounder: false
         });
 
