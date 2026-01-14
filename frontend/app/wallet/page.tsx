@@ -108,10 +108,15 @@ export default function WalletPage() {
             return;
         }
         try {
-            const res = await fetch('/api/mercadopago/create', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/create_preference`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId, email })
+                body: JSON.stringify({
+                    title: 'CRDO Token Pack', // Add required title
+                    price: 10, // Example price, should be dynamic
+                    quantity: 100, // Example quantity
+                    userId: userId
+                })
             });
             const data = await res.json();
             if (data.init_point) {
