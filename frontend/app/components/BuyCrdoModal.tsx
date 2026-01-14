@@ -54,9 +54,9 @@ export default function BuyCrdoModal({ isOpen, onClose }: BuyCrdoModalProps) {
             } else {
                 alert('Error initiating payment');
             }
-        } catch (e) {
+        } catch (e: any) {
             console.error(e);
-            alert('Error connecting to payment server');
+            alert(`Error connecting to payment server: ${e.message}`);
         } finally {
             setLoading(false);
         }
