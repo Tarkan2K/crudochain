@@ -1,78 +1,77 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { Game, AUTO, Scale } from 'phaser';
+import { BootScene } from '../../../game/scenes/BootScene';
+import { PreloadScene } from '../../../game/scenes/PreloadScene';
+import { GameScene } from '../../../game/scenes/GameScene';
 
 interface PhaserGameProps {
-    onInteraction: (type: string, active: boolean) => void;
-    initialPosition?: { x: number, y: number };
+    onInteraction?: (type: string, active: boolean) => void;
+    initialPosition?: { x: number; y: number };
 }
 
 export default function PhaserGame({ onInteraction, initialPosition }: PhaserGameProps) {
-    const gameRef = useRef<any>(null); // Use any to avoid type issues with dynamic import
+    const gameContainer = useRef<HTMLDivElement>(null);
+    const gameRef = useRef<Game | null>(null);
 
     useEffect(() => {
-        if (gameRef.current) return;
+        if (!gameContainer.current) return;
 
-        const initPhaser = async () => {
-            try {
-                const Phaser = (await import('phaser')).default;
-                const { default: config } = await import('./config');
-
-                // Initialize Phaser Game
-                gameRef.current = new Phaser.Game(config);
-
-                // Pass initial data to Registry
-                if (initialPosition) {
-                    gameRef.current.registry.set('initialPosition', initialPosition);
+        const config: Phaser.Types.Core.GameConfig = {
+            type: AUTO,
+            width: '100%',
+            height: '100%',
+            parent: gameContainer.current,
+            backgroundColor: '#000000',
+            scale: {
+                mode: Scale.RESIZE,
+                autoCenter: Scale.CENTER_BOTH
+            },
+            scene: [BootScene, PreloadScene, GameScene],
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    debug: false
                 }
-            } catch (error) {
-                console.error('Failed to load Phaser:', error);
-            }
-        };
-
-        initPhaser();
-
-        // Event Listener for Game Interactions
-        const handleGameInteraction = (e: Event) => {
-            const customEvent = e as CustomEvent;
-            if (customEvent.detail) {
-                onInteraction(customEvent.detail.type, customEvent.detail.active);
-            }
-        };
-
-        const handleGameSave = async (e: Event) => {
-            const customEvent = e as CustomEvent;
-            if (customEvent.detail && customEvent.detail.position) {
-                // Save to Backend
-                const email = localStorage.getItem('userEmail');
-                if (!email) return;
-
-                try {
-                    await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/user/update-character`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            email,
-                            position: customEvent.detail.position
-                        })
-                    });
-                    console.log('Game Saved');
-                } catch (err) {
-                    console.error('Save failed', err);
+            },
+            callbacks: {
+                preBoot: (game) => {
+                    // Pass React props to Phaser Registry
+                    game.registry.set('onInteraction', onInteraction);
+                    game.registry.set('initialPosition', initialPosition);
                 }
             }
         };
 
-        window.addEventListener('game-interaction', handleGameInteraction);
-        window.addEventListener('game-save', handleGameSave);
+        gameRef.current = new Game(config);
 
         return () => {
-            window.removeEventListener('game-interaction', handleGameInteraction);
-            window.removeEventListener('game-save', handleGameSave);
-            gameRef.current?.destroy(true);
-            gameRef.current = null;
+            if (gameRef.current) {
+                gameRef.current.destroy(true);
+                gameRef.current = null;
+            }
         };
-    }, [onInteraction, initialPosition]);
+    }, []); // We might want to update registry if props change, but for now empty dep array is safer for full reload
 
-    return <div id="phaser-game" className="w-full h-full" />;
+    // Update registry if props change (optional optimization)
+    useEffect(() => {
+        if (gameRef.current) {
+            gameRef.current.registry.set('onInteraction', onInteraction);
+        }
+    }, [onInteraction]);
+
+    return (
+        <div
+            ref={gameContainer}
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                zIndex: 0 // Ensure it's behind the UI
+            }}
+        />
+    );
 }

@@ -86,9 +86,10 @@ export default function GameHUD() {
 
                     <button
                         onClick={() => alert("¡Debes caminar hacia la TIENDA para comprar!")}
-                        className="w-14 h-14 bg-black/60 backdrop-blur-md rounded-xl border border-yellow-500/30 flex items-center justify-center text-2xl hover:bg-yellow-500/20 hover:scale-110 transition-all group relative"
+                        className="w-16 h-16 bg-[#3e2723] rounded-xl border-b-4 border-[#1b110f] flex items-center justify-center hover:scale-105 transition-all group relative shadow-lg"
+                        style={{ backgroundImage: 'linear-gradient(to bottom, #5d4037, #3e2723)' }}
                     >
-                        🛒
+                        <div className="text-2xl drop-shadow-md">🛒</div>
                         <span className="absolute -top-8 bg-black px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-white/10">
                             TIENDA (Ir a pie)
                         </span>
@@ -96,9 +97,10 @@ export default function GameHUD() {
 
                     <button
                         onClick={() => alert("¡Debes caminar hacia tu CASA para entrar!")}
-                        className="w-14 h-14 bg-black/60 backdrop-blur-md rounded-xl border border-purple-500/30 flex items-center justify-center text-2xl hover:bg-purple-500/20 hover:scale-110 transition-all group relative"
+                        className="w-16 h-16 bg-[#546e7a] rounded-xl border-b-4 border-[#263238] flex items-center justify-center hover:scale-105 transition-all group relative shadow-lg"
+                        style={{ backgroundImage: 'linear-gradient(to bottom, #78909c, #546e7a)' }}
                     >
-                        🏠
+                        <div className="text-2xl drop-shadow-md">🏠</div>
                         <span className="absolute -top-8 bg-black px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-white/10">
                             CASA (Ir a pie)
                         </span>
