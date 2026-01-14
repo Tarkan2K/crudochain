@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    character: {
+        skinColor: { type: String, default: '#FCD5B5' },
+        hairStyle: { type: Number, default: 0 },
+    },
 });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

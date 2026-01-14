@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    character: {
+        skinColor: { type: String, default: '#FCD5B5' },
+        hairStyle: { type: Number, default: 0 },
+    },
     era: {
         type: Number,
         default: 1 // 1=Cavernícola, 2=Ciudad, 3=Futuro

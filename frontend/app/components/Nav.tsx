@@ -86,6 +86,16 @@ export default function Nav() {
                             ]}
                         />
 
+                        <Link href="/world" className="relative group px-4 py-2 mr-2">
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity animate-pulse"></div>
+                            <div className="relative flex items-center gap-2 bg-black px-4 py-1 rounded-full border border-purple-500/50">
+                                <span className="text-xl">🚀</span>
+                                <span className="text-[10px] font-bold tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 group-hover:text-white transition-colors">
+                                    MUNDOCRUDO
+                                </span>
+                            </div>
+                        </Link>
+
                         <Link href="/launch" className={`text-[10px] tracking-[0.2em] hover:text-yellow-400 transition-colors ${isActive('/launch')}`}>LAUNCH 🚀</Link>
 
                         <div className="h-4 w-px bg-white/20 mx-2"></div>

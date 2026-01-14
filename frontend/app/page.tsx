@@ -106,6 +106,37 @@ export default function Home() {
 
         {/* TOP OF THE WEEK */}
         <section>
+          {/* CRUDO VERSO ACTION CARD */}
+          <Link href="/world">
+            <div className="relative w-full h-64 md:h-80 rounded-[3rem] overflow-hidden cursor-pointer group mb-24 border border-purple-500/30 shadow-[0_0_50px_rgba(168,85,247,0.2)] hover:shadow-[0_0_80px_rgba(168,85,247,0.4)] transition-all duration-500">
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518544806352-a228605e2270?q=80&w=2076&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent"></div>
+
+              <div className="absolute inset-0 flex flex-col justify-center px-12 md:px-24">
+                <motion.div
+                  initial={{ x: -50, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  <span className="inline-block px-4 py-1 rounded-full bg-purple-600/30 border border-purple-500/50 text-purple-300 text-xs font-bold tracking-[0.3em] mb-4 backdrop-blur-md">
+                    NEW EXPERIENCE
+                  </span>
+                  <h2 className="text-5xl md:text-7xl font-black text-white mb-4 drop-shadow-lg">
+                    ENTRAR AL <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">CRUDO VERSO</span>
+                  </h2>
+                  <p className="text-gray-300 text-lg max-w-xl mb-8">
+                    Explora un mundo infinito, crea tu avatar y construye tu legado en la nueva era de CrudoChain.
+                  </p>
+                  <div className="flex items-center gap-4 text-purple-400 font-bold tracking-widest group-hover:translate-x-4 transition-transform">
+                    <span>COMENZAR AVENTURA</span>
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </Link>
+
           <div className="flex items-center justify-between mb-12">
             <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
               TOP OF THE WEEK
