@@ -6,12 +6,13 @@ import { useAuth } from '../../context/AuthContext';
 
 interface CharacterCreatorProps {
     onComplete: () => void;
+    initialName: string;
 }
 
 const SKIN_COLORS = ['#FCD5B5', '#E0AC69', '#8D5524', '#C68642', '#FFDBAC'];
 const HAIR_STYLES = ['🦱', '🦳', '🦲', '👱', '🦁']; // Placeholders for hair sprites
 
-export default function CharacterCreator({ onComplete }: CharacterCreatorProps) {
+export default function CharacterCreator({ onComplete, initialName }: CharacterCreatorProps) {
     const { userId } = useAuth();
     const [skinColor, setSkinColor] = useState(SKIN_COLORS[0]);
     const [hairStyle, setHairStyle] = useState(0);
@@ -28,7 +29,8 @@ export default function CharacterCreator({ onComplete }: CharacterCreatorProps) 
                     character: {
                         skinColor,
                         hairStyle
-                    }
+                    },
+                    name: initialName
                 })
             });
 

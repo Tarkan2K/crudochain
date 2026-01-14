@@ -16,10 +16,11 @@ export default function GameHUD() {
     useEffect(() => {
         // Fetch real balance
         const fetchBalance = async () => {
+            if (!email) return;
             try {
-                const res = await fetch('/api/user/balance');
+                const res = await fetch(`/api/user/balance?email=${email}`);
                 const data = await res.json();
-                if (data.crdoBalance) setBalance(data.crdoBalance);
+                if (data.crdoBalance !== undefined) setBalance(data.crdoBalance);
             } catch (e) {
                 console.error(e);
             }

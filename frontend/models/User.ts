@@ -17,8 +17,8 @@ const UserSchema = new mongoose.Schema({
     },
     walletAddress: {
         type: String,
-        required: true,
         unique: true,
+        sparse: true,
     },
     createdAt: {
         type: Date,

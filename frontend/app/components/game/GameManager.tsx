@@ -16,6 +16,7 @@ export default function GameManager() {
     const { isLoggedIn } = useAuth();
     const router = useRouter();
     const [gameState, setGameState] = useState<GameState>('INTRO');
+    const [characterName, setCharacterName] = useState('');
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -35,7 +36,10 @@ export default function GameManager() {
                             exit={{ opacity: 0 }}
                             className="absolute inset-0 z-50"
                         >
-                            <IntroSequence onComplete={() => setGameState('CREATOR')} />
+                            <IntroSequence onComplete={(name) => {
+                                setCharacterName(name);
+                                setGameState('CREATOR');
+                            }} />
                         </motion.div>
                     )}
 
@@ -47,7 +51,10 @@ export default function GameManager() {
                             exit={{ opacity: 0 }}
                             className="absolute inset-0 z-40"
                         >
-                            <CharacterCreator onComplete={() => setGameState('PLAYING')} />
+                            <CharacterCreator
+                                initialName={characterName}
+                                onComplete={() => setGameState('PLAYING')}
+                            />
                         </motion.div>
                     )}
 
