@@ -21,7 +21,30 @@ export default function GameManager() {
     useEffect(() => {
         if (!isLoggedIn) {
             router.push('/login');
+            return;
         }
+
+        // Check if user already has a character
+        const checkCharacter = async () => {
+            try {
+                const email = localStorage.getItem('userEmail'); // Assuming email is stored
+                if (!email) return;
+
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/user/profile?email=${email}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.character && data.character.name) {
+                        // Character exists, skip creator
+                        setCharacterName(data.character.name);
+                        setGameState('PLAYING');
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking character:', error);
+            }
+        };
+
+        checkCharacter();
     }, [isLoggedIn, router]);
 
     if (!isLoggedIn) return null;

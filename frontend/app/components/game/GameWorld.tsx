@@ -4,13 +4,30 @@ import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import MiniGameModal from './MiniGameModal';
 import CavernInterior from './CavernInterior';
-import IsometricCanvas from '../engine/IsometricCanvas';
+import PhaserGame from './phaser/PhaserGame'; // Updated import
+import StoreModal from './StoreModal'; // Import StoreModal
+import CavernModal from './CavernModal'; // Import CavernModal
 import { useGame } from '../../context/GameContext';
 
 export default function GameWorld() {
     const { character } = useGame();
     const [activeMiniGame, setActiveMiniGame] = useState<'MINING' | 'CASINO' | null>(null);
     const [viewMode, setViewMode] = useState<'WORLD' | 'CAVERN'>('WORLD');
+
+    // Interaction States
+    const [showStore, setShowStore] = useState(false);
+    const [showCavernModal, setShowCavernModal] = useState(false);
+
+    const handleInteraction = (type: string, active: boolean) => {
+        console.log('Interaction:', type, active);
+        if (type === 'SHOP_PROXIMITY') {
+            // In a real game, we might show a "Press E" prompt first
+            // For now, let's just open it if we collide
+            setShowStore(true);
+        } else if (type === 'HOUSE_PROXIMITY') {
+            setShowCavernModal(true);
+        }
+    };
 
     if (viewMode === 'CAVERN') {
         return <CavernInterior onExit={() => setViewMode('WORLD')} />;
@@ -23,20 +40,25 @@ export default function GameWorld() {
                 {activeMiniGame && (
                     <MiniGameModal type={activeMiniGame} onClose={() => setActiveMiniGame(null)} />
                 )}
+                {showStore && <StoreModal onClose={() => setShowStore(false)} />}
+                {showCavernModal && <CavernModal onClose={() => setShowCavernModal(false)} />}
             </AnimatePresence>
 
-            {/* Custom Isometric Engine */}
-            <IsometricCanvas character={character} />
+            {/* Phaser Engine */}
+            <PhaserGame
+                onInteraction={handleInteraction}
+                initialPosition={character?.gameData?.position}
+            />
 
             {/* UI Overlay */}
             <div className="absolute top-4 left-4 pointer-events-none">
                 <h1 className="text-white font-bold text-xl drop-shadow-md">MUNDO DE {character?.name?.toUpperCase() || 'TI'}</h1>
-                <p className="text-gray-400 text-xs">Motor: CrudoEngine v0.1 (Canvas 2D)</p>
+                <p className="text-gray-400 text-xs">Motor: Phaser 3 (Hi-Bit)</p>
             </div>
 
             {/* Controls Hint */}
             <div className="absolute bottom-8 left-8 text-white/50 font-mono text-xs pointer-events-none">
-                USE W,A,S,D TO MOVE
+                USE ARROWS TO MOVE | WALK TO BUILDINGS TO INTERACT
             </div>
         </div>
     );

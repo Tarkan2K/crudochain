@@ -85,22 +85,22 @@ export default function GameHUD() {
                     </button>
 
                     <button
-                        onClick={() => setShowStore(true)}
+                        onClick={() => alert("¡Debes caminar hacia la TIENDA para comprar!")}
                         className="w-14 h-14 bg-black/60 backdrop-blur-md rounded-xl border border-yellow-500/30 flex items-center justify-center text-2xl hover:bg-yellow-500/20 hover:scale-110 transition-all group relative"
                     >
                         🛒
                         <span className="absolute -top-8 bg-black px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-white/10">
-                            TIENDA
+                            TIENDA (Ir a pie)
                         </span>
                     </button>
 
                     <button
-                        onClick={() => setShowCavern(true)}
+                        onClick={() => alert("¡Debes caminar hacia tu CASA para entrar!")}
                         className="w-14 h-14 bg-black/60 backdrop-blur-md rounded-xl border border-purple-500/30 flex items-center justify-center text-2xl hover:bg-purple-500/20 hover:scale-110 transition-all group relative"
                     >
                         🏠
                         <span className="absolute -top-8 bg-black px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-white/10">
-                            CAVERNA
+                            CASA (Ir a pie)
                         </span>
                     </button>
 
