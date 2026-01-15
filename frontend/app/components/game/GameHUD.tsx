@@ -80,8 +80,6 @@ export default function GameHUD() {
                         { icon: '⚒️', label: 'CRAFTING' },
                         { icon: '🗺️', label: 'MAPA' },
                         { icon: '🛡️', label: 'EQUIPO' },
-                        { icon: '⚔️', label: 'COMBATE' },
-                        { icon: '🧪', label: 'POCIONES' },
                         { icon: '⚙️', label: 'AJUSTES' }
                     ].map((item) => (
                         <button

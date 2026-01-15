@@ -5,7 +5,7 @@ import GameManager from '../components/game/GameManager';
 
 export default function WorldPage() {
     return (
-        <div className="min-h-screen bg-black text-white overflow-hidden">
+        <div className="min-h-screen bg-black text-white overflow-hidden pt-24">
             <Nav />
             <GameManager />
         </div>
