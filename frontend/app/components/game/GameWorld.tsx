@@ -13,7 +13,7 @@ import { useGame } from '../../context/GameContext';
 
 export default function GameWorld() {
     const { character } = useGame();
-    const [activeMiniGame, setActiveMiniGame] = useState<'MINING' | 'CASINO' | null>(null);
+    const [activeMiniGame, setActiveMiniGame] = useState<'MINING' | null>(null);
     const [viewMode, setViewMode] = useState<'WORLD' | 'CAVERN'>('WORLD');
 
     // Interaction States
@@ -51,12 +51,6 @@ export default function GameWorld() {
                 onInteraction={handleInteraction}
                 initialPosition={character?.gameData?.position}
             />
-
-            {/* UI Overlay */}
-            <div className="absolute top-4 left-4 pointer-events-none">
-                <h1 className="text-white font-bold text-xl drop-shadow-md">MUNDO DE {character?.name?.toUpperCase() || 'TI'}</h1>
-                <p className="text-gray-400 text-xs">Motor: Phaser 3 (Hi-Bit)</p>
-            </div>
 
             {/* Controls Hint */}
             <div className="absolute bottom-8 left-8 text-white/50 font-mono text-xs pointer-events-none">

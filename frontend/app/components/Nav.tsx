@@ -67,14 +67,7 @@ export default function Nav() {
                             ]}
                         />
 
-                        <Dropdown
-                            title="CASINO"
-                            items={[
-                                { label: "BLACKJACK", href: "/casino" }, // Currently main casino page
-                                { label: "POKER", href: "/casino/poker" },
-                                { label: "SLOTS", href: "/casino/slots" } // Placeholder
-                            ]}
-                        />
+
 
                         <Dropdown
                             title="ASSETS"

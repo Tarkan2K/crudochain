@@ -9,9 +9,11 @@ export class PreloadScene extends Scene {
         // Load character sprite
         this.load.image('player', '/assets/images/cavernicola.png');
 
-        // Placeholder for tileset - we will generate a texture if not found, 
-        // but for now let's try to load a hypothetical one or just use a graphic in GameScene
-        // this.load.image('tiles', '/assets/images/tileset.png'); 
+        // Load Tiled Map and Tileset
+        // We use a try-catch block conceptually, but in Phaser we just queue them.
+        // If they 404, Phaser will log it, but we can check cache in GameScene.
+        this.load.tilemapTiledJSON('map', '/assets/map.json');
+        this.load.image('tiles', '/assets/tileset.png');
     }
 
     create() {

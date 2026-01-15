@@ -5,14 +5,12 @@ import { useState } from 'react';
 import { useGame } from '../../context/GameContext';
 
 interface MiniGameModalProps {
-    type: 'MINING' | 'CASINO' | null;
+    type: 'MINING' | null;
     onClose: () => void;
 }
 
 export default function MiniGameModal({ type, onClose }: MiniGameModalProps) {
     const { addItem, addXp } = useGame();
-    const [spinning, setSpinning] = useState(false);
-    const [slots, setSlots] = useState(['🍒', '🍒', '🍒']);
     const [message, setMessage] = useState('');
 
     if (!type) return null;
@@ -25,52 +23,6 @@ export default function MiniGameModal({ type, onClose }: MiniGameModalProps) {
             setMessage('');
             onClose();
         }, 1000);
-    };
-
-    const handleSpin = () => {
-        if (spinning) return;
-        setSpinning(true);
-        setMessage('');
-
-        // Mock Spin Animation
-        let count = 0;
-        const interval = setInterval(() => {
-            setSlots([
-                ['🍒', '🍋', '🍇', '💎', '7️⃣'][Math.floor(Math.random() * 5)],
-                ['🍒', '🍋', '🍇', '💎', '7️⃣'][Math.floor(Math.random() * 5)],
-                ['🍒', '🍋', '🍇', '💎', '7️⃣'][Math.floor(Math.random() * 5)]
-            ]);
-            count++;
-            if (count > 20) {
-                clearInterval(interval);
-                setSpinning(false);
-                checkWin();
-            }
-        }, 100);
-    };
-
-    const checkWin = () => {
-        // Simple win logic
-        // In reality, we'd check the final state from the interval or pre-calculate it.
-        // For this mock, we just check the last random state (which is risky if state update is slow, but fine for prototype)
-        // Better: Calculate result first, then animate to it.
-
-        const symbols = ['🍒', '🍋', '🍇', '💎', '7️⃣'];
-        const result = [
-            symbols[Math.floor(Math.random() * symbols.length)],
-            symbols[Math.floor(Math.random() * symbols.length)],
-            symbols[Math.floor(Math.random() * symbols.length)]
-        ];
-        setSlots(result);
-
-        if (result[0] === result[1] && result[1] === result[2]) {
-            setMessage('JACKPOT! +500 CRDO');
-            // Here we would call API to add balance
-        } else if (result[0] === result[1] || result[1] === result[2] || result[0] === result[2]) {
-            setMessage('WIN! +50 CRDO');
-        } else {
-            setMessage('TRY AGAIN');
-        }
     };
 
     return (
@@ -100,28 +52,6 @@ export default function MiniGameModal({ type, onClose }: MiniGameModalProps) {
                             MINE ROCK
                         </button>
                         {message && <p className="mt-4 text-green-400 font-bold animate-pulse">{message}</p>}
-                    </div>
-                )}
-
-                {type === 'CASINO' && (
-                    <div>
-                        <h2 className="text-3xl font-black text-purple-400 mb-4">SLOTS</h2>
-                        <div className="flex justify-center gap-4 mb-8 bg-black/50 p-4 rounded-xl border border-purple-500/30">
-                            {slots.map((s, i) => (
-                                <div key={i} className="text-5xl w-16 h-16 flex items-center justify-center bg-white/10 rounded-lg">
-                                    {s}
-                                </div>
-                            ))}
-                        </div>
-
-                        <button
-                            className={`px-8 py-4 bg-purple-600 text-white font-bold rounded-full hover:scale-105 transition-transform ${spinning ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            onClick={handleSpin}
-                            disabled={spinning}
-                        >
-                            {spinning ? 'SPINNING...' : 'SPIN (10 CRDO)'}
-                        </button>
-                        {message && <p className="mt-4 text-yellow-400 font-bold animate-pulse">{message}</p>}
                     </div>
                 )}
             </motion.div>
