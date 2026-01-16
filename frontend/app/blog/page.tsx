@@ -21,7 +21,8 @@ export default function BlogPage() {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const res = await fetch('http://localhost:3001/api/content?type=BLOG');
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+                const res = await fetch(`${apiUrl}/api/content?type=BLOG`);
                 const data = await res.json();
                 // Map backend data to frontend format
                 const mapped = data.map((item: any) => ({

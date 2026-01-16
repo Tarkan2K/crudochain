@@ -35,7 +35,8 @@ export default function ForumPage() {
         setLoading(true);
         try {
             // In a real app, we'd filter by category in the backend
-            const res = await fetch(`http://localhost:3001/api/content?type=FORUM_THREAD&limit=50`);
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const res = await fetch(`${apiUrl}/api/content?type=FORUM_THREAD&limit=50`);
             const data = await res.json();
             // Client-side filter for now as backend doesn't support category filter yet
             const filtered = data.filter((t: any) => t.category === activeCategory);
@@ -52,7 +53,8 @@ export default function ForumPage() {
         if (!isLoggedIn || !token) return;
 
         try {
-            const res = await fetch('http://localhost:3001/api/content', {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const res = await fetch(`${apiUrl}/api/content`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -113,8 +115,8 @@ export default function ForumPage() {
                                 key={cat}
                                 onClick={() => setActiveCategory(cat)}
                                 className={`w-full text-left px-6 py-4 rounded-xl transition-colors font-bold ${activeCategory === cat
-                                        ? 'bg-purple-600 text-white shadow-lg'
-                                        : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                                    ? 'bg-purple-600 text-white shadow-lg'
+                                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
                                     }`}
                             >
                                 {cat}

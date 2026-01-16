@@ -32,7 +32,8 @@ export default function AdminPage() {
 
     const fetchUsers = async () => {
         try {
-            const res = await fetch('http://localhost:3001/api/admin/users', {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const res = await fetch(`${apiUrl}/api/admin/users`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -56,7 +57,8 @@ export default function AdminPage() {
 
     const handleRoleUpdate = async (userId: string, newRole: string) => {
         try {
-            const res = await fetch('http://localhost:3001/api/admin/set-role', {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const res = await fetch(`${apiUrl}/api/admin/set-role`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -140,8 +142,8 @@ export default function AdminPage() {
                                         </td>
                                         <td className="p-4">
                                             <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.role === 'ADMIN' ? 'bg-red-500/20 text-red-400' :
-                                                    user.role === 'BLOGGER' ? 'bg-purple-500/20 text-purple-400' :
-                                                        'bg-gray-500/20 text-gray-400'
+                                                user.role === 'BLOGGER' ? 'bg-purple-500/20 text-purple-400' :
+                                                    'bg-gray-500/20 text-gray-400'
                                                 }`}>
                                                 {user.role}
                                             </span>
