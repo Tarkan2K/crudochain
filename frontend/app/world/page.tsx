@@ -1,7 +1,7 @@
 'use client';
 
 import Nav from '../components/Nav';
-import GameManager from '../components/game/GameManager';
+
 
 export default function WorldPage() {
     return (
