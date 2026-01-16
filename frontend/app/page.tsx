@@ -241,9 +241,11 @@ export default function Home() {
             <p className="text-xl text-gray-300 mb-8">
               Descubre las funciones experimentales y joyas ocultas del ecosistema CrudoChain.
             </p>
-            <button className="px-8 py-4 bg-white text-black rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.3)]">
-              EXPLORAR LABORATORIOS
-            </button>
+            <Link href="/labs">
+              <button className="px-8 py-4 bg-white text-black rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                EXPLORAR LABORATORIOS
+              </button>
+            </Link>
           </div>
         </section>
 
