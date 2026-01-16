@@ -48,26 +48,27 @@ export default function Nav() {
     );
 
     return (
-        <nav className="fixed top-0 right-0 p-8 z-50 w-full flex justify-between items-start pointer-events-none">
-            <div className="pointer-events-auto">
-                {/* Logo Area */}
+        <nav className="fixed top-0 left-0 w-full z-50 bg-[#0f0518]/80 backdrop-blur-xl border-b border-white/10 px-8 py-6 flex justify-between items-center">
+            <div className="flex items-center gap-4">
+                {/* Logo Area - Can be added here */}
+                <Link href="/" className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 hover:opacity-80 transition-opacity">
+                    CRUDOCHAIN
+                </Link>
             </div>
 
-            <div className="flex gap-4 pointer-events-auto">
+            <div className="flex gap-6 items-center">
                 {isLoggedIn ? (
-                    <div className="flex items-center gap-8 bg-black/40 backdrop-blur-md px-8 py-3 rounded-full border border-white/10 shadow-lg">
-                        <Link href="/" className={`text-[10px] tracking-[0.2em] transition-colors ${isActive('/')}`}>INICIO</Link>
+                    <div className="flex items-center gap-8">
+                        <Link href="/" className={`text-xs font-bold tracking-[0.2em] transition-colors ${isActive('/')}`}>INICIO</Link>
 
                         <Dropdown
                             title="GAMES"
                             items={[
                                 { label: "GAME STORE", href: "/games" },
-                                { label: "MY LIBRARY", href: "/games/library" }, // Placeholder
-                                { label: "PUBLISH", href: "/games/publish" }     // Placeholder
+                                { label: "MY LIBRARY", href: "/games/library" },
+                                { label: "PUBLISH", href: "/games/publish" }
                             ]}
                         />
-
-
 
                         <Dropdown
                             title="ASSETS"
@@ -79,9 +80,9 @@ export default function Nav() {
                             ]}
                         />
 
-                        <Link href="/world" className="relative group px-4 py-2 mr-2">
+                        <Link href="/world" className="relative group px-5 py-2">
                             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity animate-pulse"></div>
-                            <div className="relative flex items-center gap-2 bg-black px-4 py-1 rounded-full border border-purple-500/50">
+                            <div className="relative flex items-center gap-2 bg-black px-4 py-1.5 rounded-full border border-purple-500/50">
                                 <span className="text-xl">🚀</span>
                                 <span className="text-[10px] font-bold tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 group-hover:text-white transition-colors">
                                     MUNDOCRUDO
@@ -89,28 +90,28 @@ export default function Nav() {
                             </div>
                         </Link>
 
-                        <Link href="/launch" className={`text-[10px] tracking-[0.2em] hover:text-yellow-400 transition-colors ${isActive('/launch')}`}>LAUNCH 🚀</Link>
+                        <Link href="/launch" className={`text-xs font-bold tracking-[0.2em] hover:text-yellow-400 transition-colors ${isActive('/launch')}`}>LAUNCH 🚀</Link>
 
-                        <div className="h-4 w-px bg-white/20 mx-2"></div>
+                        <div className="h-6 w-px bg-white/20 mx-2"></div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-full border border-white/10">
                             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            <span className="text-[10px] font-mono tracking-widest text-gray-300">
+                            <span className="text-xs font-mono tracking-widest text-gray-300">
                                 {email || userAddress}
                             </span>
                         </div>
 
-                        <button onClick={logout} className="text-[10px] tracking-[0.2em] text-red-500 hover:text-red-400 ml-2">LOGOUT</button>
+                        <button onClick={logout} className="text-xs font-bold tracking-[0.2em] text-red-500 hover:text-red-400 ml-2">LOGOUT</button>
                     </div>
                 ) : (
                     <div className="flex gap-4">
                         <Link href="/login">
-                            <button className="text-[10px] uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors px-6 py-2 border border-white/10 rounded-full hover:bg-white/5 backdrop-blur-sm">
+                            <button className="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors px-8 py-3 border border-white/10 rounded-full hover:bg-white/5 backdrop-blur-sm">
                                 Log In
                             </button>
                         </Link>
                         <Link href="/register">
-                            <button className="text-[10px] uppercase tracking-[0.2em] bg-white text-black hover:bg-gray-200 transition-all px-6 py-2 rounded-full font-bold shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                            <button className="text-xs uppercase tracking-[0.2em] bg-white text-black hover:bg-gray-200 transition-all px-8 py-3 rounded-full font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)]">
                                 Sign Up
                             </button>
                         </Link>

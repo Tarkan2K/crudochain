@@ -18,7 +18,7 @@ export default function WorldPage() {
                 <div className="relative w-full max-w-2xl h-[70vh] flex flex-col items-center justify-center">
                     {/* Monolith Image */}
                     <img
-                        src="/monolith_endless.png"
+                        src="/monolito.png"
                         alt="Monolith"
                         className="w-full h-full object-contain opacity-90 drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]"
                     />

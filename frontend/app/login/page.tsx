@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Nav from '../components/Nav';
@@ -26,7 +26,13 @@ export default function LoginPage() {
                 return;
             }
 
-            router.push('/wallet');
+            // Fetch session to check role
+            const session = await getSession();
+            if ((session?.user as any)?.role === 'ADMIN') {
+                router.push('/admin');
+            } else {
+                router.push('/wallet');
+            }
         } catch (error) {
             console.log(error);
         }
