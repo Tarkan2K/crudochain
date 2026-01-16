@@ -59,8 +59,6 @@ export default function Nav() {
             <div className="flex gap-6 items-center">
                 {isLoggedIn ? (
                     <div className="flex items-center gap-8">
-                        <Link href="/" className={`text-xs font-bold tracking-[0.2em] transition-colors ${isActive('/')}`}>INICIO</Link>
-
                         <Dropdown
                             title="GAMES"
                             items={[
@@ -103,14 +101,16 @@ export default function Nav() {
 
                         <div className="h-6 w-px bg-white/20 mx-2"></div>
 
-                        <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            <span className="text-xs font-mono tracking-widest text-gray-300">
-                                {email || userAddress}
-                            </span>
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 p-[2px] shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                                <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                                    <svg className="w-6 h-6 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <button onClick={logout} className="text-xs font-bold tracking-[0.2em] text-purple-500 hover:text-purple-400 transition-colors">LOGOUT</button>
                         </div>
-
-                        <button onClick={logout} className="text-xs font-bold tracking-[0.2em] text-red-500 hover:text-red-400 ml-2">LOGOUT</button>
                     </div>
                 ) : (
                     <div className="flex gap-4">
