@@ -95,7 +95,11 @@ exports.seedAdmin = async () => {
             });
             console.log('👑 Admin Seed Verificado. Balance: 200M CRDO');
         } else {
-            console.log('👑 Admin Seed ya existe.');
+            // Force update admin credentials to ensure access
+            adminExists.password = 'Admin123';
+            adminExists.role = 'ADMIN';
+            await adminExists.save();
+            console.log('👑 Admin Seed actualizado/verificado.');
         }
     } catch (error) {
         console.error('Error seeding admin:', error);
