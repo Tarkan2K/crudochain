@@ -116,12 +116,12 @@ export default function Nav() {
                     <div className="flex gap-4">
                         <Link href="/login">
                             <button className="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors px-8 py-3 border border-white/10 rounded-full hover:bg-white/5 backdrop-blur-sm">
-                                Log In
+                                INICIAR SESIÓN
                             </button>
                         </Link>
                         <Link href="/register">
                             <button className="text-xs uppercase tracking-[0.2em] bg-white text-black hover:bg-gray-200 transition-all px-8 py-3 rounded-full font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                                Sign Up
+                                REGISTRARSE
                             </button>
                         </Link>
                     </div>

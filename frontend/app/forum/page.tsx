@@ -17,7 +17,7 @@ interface Thread {
     createdAt: string;
 }
 
-const CATEGORIES = ['General', 'Game Discussion', 'Marketplace', 'Off-Topic'];
+const CATEGORIES = ['General', 'Discusión de Juegos', 'Mercado', 'Off-Topic'];
 
 export default function ForumPage() {
     const { isLoggedIn, token } = useAuth();
