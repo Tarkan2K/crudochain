@@ -24,13 +24,20 @@ export default function NewsDetailPage() {
         const fetchPost = async () => {
             if (!id) return;
             try {
-                const res = await fetch(`http://127.0.0.1:18080/cms/post/${id}`);
+                const res = await fetch(`http://localhost:3001/api/content/${id}`);
                 if (res.ok) {
-                    const data = await res.json();
-                    setPost(data);
+                    const item = await res.json();
+                    setPost({
+                        id: item._id,
+                        title: item.title,
+                        content: item.content,
+                        author: item.author?.email || 'Admin',
+                        imageUrl: item.imageUrl,
+                        createdAt: new Date(item.createdAt).getTime() / 1000
+                    });
                 }
             } catch (e) {
-                console.error("Failed to fetch post");
+                console.error("Failed to fetch post", e);
             }
             setLoading(false);
         };

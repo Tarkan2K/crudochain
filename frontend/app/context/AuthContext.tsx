@@ -11,6 +11,7 @@ interface AuthContextType {
     userId: string | null;
     email: string | null;
     role: string;
+    token: string | null;
     switchUser: (address: string) => void;
 }
 
@@ -22,6 +23,7 @@ const AuthContext = createContext<AuthContextType>({
     userId: null,
     email: null,
     role: "user",
+    token: null,
     switchUser: () => { },
 });
 
@@ -36,6 +38,8 @@ function AuthContent({ children }: { children: ReactNode }) {
     // @ts-ignore
     const userId = session?.user?.id || null;
     const email = session?.user?.email || null;
+    // @ts-ignore
+    const token = session?.accessToken || null;
 
     const login = () => {
         signIn();
@@ -50,7 +54,7 @@ function AuthContent({ children }: { children: ReactNode }) {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout, userAddress, userId, email, role, switchUser }}>
+        <AuthContext.Provider value={{ isLoggedIn, login, logout, userAddress, userId, email, role, token, switchUser }}>
             {children}
         </AuthContext.Provider>
     );

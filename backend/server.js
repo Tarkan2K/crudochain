@@ -23,6 +23,8 @@ app.use(morgan('dev'));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/payment', require('./routes/paymentRoutes'));
 app.use('/api/user', require('./routes/userRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/content', require('./routes/contentRoutes'));
 
 // Database Connection
 const PORT = process.env.PORT || 3001;

@@ -90,7 +90,7 @@ exports.seedAdmin = async () => {
             await User.create({
                 email: adminEmail,
                 password: 'Admin123', // Will be hashed by pre-save hook
-                role: 'admin',
+                role: 'ADMIN',
                 balance: 200000000 // 200 Million
             });
             console.log('👑 Admin Seed Verificado. Balance: 200M CRDO');

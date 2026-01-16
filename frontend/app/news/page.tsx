@@ -21,11 +21,20 @@ export default function NewsPage() {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const res = await fetch('http://127.0.0.1:18080/news');
+                const res = await fetch('http://localhost:3001/api/content?type=NEWS');
                 const data = await res.json();
-                setPosts(data);
+                // Map backend data to frontend format
+                const mapped = data.map((item: any) => ({
+                    id: item._id,
+                    title: item.title,
+                    content: item.content,
+                    author: item.author?.email || 'Admin',
+                    imageUrl: item.imageUrl, // Backend doesn't have imageUrl yet, but let's keep it optional
+                    createdAt: new Date(item.createdAt).getTime() / 1000 // Convert to seconds timestamp
+                }));
+                setPosts(mapped);
             } catch (e) {
-                console.error("Failed to fetch news");
+                console.error("Failed to fetch news", e);
             }
             setLoading(false);
         };

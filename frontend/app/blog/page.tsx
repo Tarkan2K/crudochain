@@ -21,11 +21,20 @@ export default function BlogPage() {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const res = await fetch('http://127.0.0.1:18080/blog');
+                const res = await fetch('http://localhost:3001/api/content?type=BLOG');
                 const data = await res.json();
-                setPosts(data);
+                // Map backend data to frontend format
+                const mapped = data.map((item: any) => ({
+                    id: item._id,
+                    title: item.title,
+                    content: item.content,
+                    author: item.author?.email || 'Admin',
+                    imageUrl: item.imageUrl,
+                    createdAt: new Date(item.createdAt).getTime() / 1000
+                }));
+                setPosts(mapped);
             } catch (e) {
-                console.error("Failed to fetch blog");
+                console.error("Failed to fetch blog", e);
             }
             setLoading(false);
         };

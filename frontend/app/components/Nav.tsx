@@ -48,7 +48,7 @@ export default function Nav() {
     );
 
     return (
-        <nav className="absolute top-0 right-0 p-8 z-50 w-full flex justify-between items-start pointer-events-none">
+        <nav className="fixed top-0 right-0 p-8 z-50 w-full flex justify-between items-start pointer-events-none">
             <div className="pointer-events-auto">
                 {/* Logo Area */}
             </div>

@@ -18,26 +18,29 @@ const handler = NextAuth({
                 }
 
                 try {
-                    await dbConnect();
-                    const user = await User.findOne({ email: credentials.email });
+                    const res = await fetch('http://localhost:3001/api/auth/login', {
+                        method: 'POST',
+                        body: JSON.stringify(credentials),
+                        headers: { "Content-Type": "application/json" }
+                    });
 
-                    if (!user) {
-                        throw new Error('No user found with this email');
+                    const user = await res.json();
+
+                    if (!res.ok) {
+                        throw new Error(user.message || 'Authentication failed');
                     }
 
-                    const isMatch = await bcrypt.compare(credentials.password, user.password);
-
-                    if (!isMatch) {
-                        throw new Error('Invalid password');
+                    if (user) {
+                        return {
+                            id: user._id,
+                            name: user.email, // Using email as name for now
+                            email: user.email,
+                            role: user.role,
+                            token: user.token, // Capture the token from backend
+                            walletAddress: "Anon" // Backend doesn't seem to return walletAddress yet, or it's not in the response. User model has it? No, User model in backend has gameData. Let's assume Anon for now or add it to backend response if needed.
+                        };
                     }
-
-                    return {
-                        id: user._id.toString(),
-                        name: user.name,
-                        email: user.email,
-                        walletAddress: user.walletAddress,
-                        role: user.role || 'user'
-                    };
+                    return null;
                 } catch (e) {
                     console.error("Auth Error:", e);
                     throw new Error('Authentication failed');
@@ -49,16 +52,16 @@ const handler = NextAuth({
         async jwt({ token, user }: any) {
             if (user) {
                 token.id = user.id;
-                token.walletAddress = user.walletAddress;
                 token.role = user.role;
+                token.accessToken = user.token; // Persist token
             }
             return token;
         },
         async session({ session, token }: any) {
             if (session.user) {
                 session.user.id = token.id;
-                session.user.walletAddress = token.walletAddress;
                 session.user.role = token.role;
+                session.accessToken = token.accessToken; // Expose token to client
             }
             return session;
         }
@@ -69,7 +72,7 @@ const handler = NextAuth({
     session: {
         strategy: "jwt",
     },
-    secret: process.env.NEXTAUTH_SECRET || "supersecretkey", // In prod, use env var
+    secret: process.env.NEXTAUTH_SECRET || "supersecretkey",
 });
 
 export { handler as GET, handler as POST };
