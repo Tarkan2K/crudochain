@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Nav from '../components/Nav';
+import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
@@ -15,32 +16,66 @@ interface Post {
 }
 
 export default function BlogPage() {
+    const { isLoggedIn, token, role } = useAuth();
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [newPost, setNewPost] = useState({ title: '', content: '', imageUrl: '' });
+
+    const fetchBlog = async () => {
+        try {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const res = await fetch(`${apiUrl}/api/content?type=BLOG`);
+            const data = await res.json();
+            // Map backend data to frontend format
+            const mapped = data.map((item: any) => ({
+                id: item._id,
+                title: item.title,
+                content: item.content,
+                author: item.author?.email || 'Admin',
+                imageUrl: item.imageUrl,
+                createdAt: new Date(item.createdAt).getTime() / 1000
+            }));
+            setPosts(mapped);
+        } catch (e) {
+            console.error("Failed to fetch blog", e);
+        }
+        setLoading(false);
+    };
 
     useEffect(() => {
-        const fetchBlog = async () => {
-            try {
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-                const res = await fetch(`${apiUrl}/api/content?type=BLOG`);
-                const data = await res.json();
-                // Map backend data to frontend format
-                const mapped = data.map((item: any) => ({
-                    id: item._id,
-                    title: item.title,
-                    content: item.content,
-                    author: item.author?.email || 'Admin',
-                    imageUrl: item.imageUrl,
-                    createdAt: new Date(item.createdAt).getTime() / 1000
-                }));
-                setPosts(mapped);
-            } catch (e) {
-                console.error("Failed to fetch blog", e);
-            }
-            setLoading(false);
-        };
         fetchBlog();
     }, []);
+
+    const handleCreatePost = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!token) return;
+
+        try {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const res = await fetch(`${apiUrl}/api/content`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    ...newPost,
+                    type: 'BLOG'
+                })
+            });
+
+            if (res.ok) {
+                setShowCreateModal(false);
+                setNewPost({ title: '', content: '', imageUrl: '' });
+                fetchBlog(); // Refresh list
+            } else {
+                alert('Failed to create post');
+            }
+        } catch (error) {
+            console.error('Error creating post:', error);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-[#0f0518] text-white font-sans selection:bg-green-500 selection:text-white">
@@ -53,9 +88,18 @@ export default function BlogPage() {
                     <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 mb-4 tracking-tighter drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]">
                         DEV <span className="text-white">BLOG</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                    <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
                         Deep dives, technical updates, and insights from the CrudoChain team.
                     </p>
+
+                    {(role === 'ADMIN' || role === 'BLOGGER') && (
+                        <button
+                            onClick={() => setShowCreateModal(true)}
+                            className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-full transition-colors shadow-lg shadow-green-600/20"
+                        >
+                            WRITE NEW POST ✍️
+                        </button>
+                    )}
                 </div>
 
                 {/* Blog Grid */}
@@ -112,6 +156,61 @@ export default function BlogPage() {
                     </div>
                 )}
             </main>
+
+            {/* Create Post Modal */}
+            {showCreateModal && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-[#1a1025] border border-white/10 w-full max-w-2xl rounded-3xl p-8 shadow-2xl">
+                        <h2 className="text-2xl font-bold mb-6">Write New Blog Post</h2>
+                        <form onSubmit={handleCreatePost} className="space-y-6">
+                            <div>
+                                <label className="block text-sm font-bold text-gray-400 mb-2">Title</label>
+                                <input
+                                    type="text"
+                                    value={newPost.title}
+                                    onChange={e => setNewPost({ ...newPost, title: e.target.value })}
+                                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-gray-400 mb-2">Image URL</label>
+                                <input
+                                    type="text"
+                                    value={newPost.imageUrl}
+                                    onChange={e => setNewPost({ ...newPost, imageUrl: e.target.value })}
+                                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500"
+                                    placeholder="https://..."
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-gray-400 mb-2">Content</label>
+                                <textarea
+                                    value={newPost.content}
+                                    onChange={e => setNewPost({ ...newPost, content: e.target.value })}
+                                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500 h-64 resize-none"
+                                    required
+                                />
+                            </div>
+                            <div className="flex justify-end gap-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowCreateModal(false)}
+                                    className="px-6 py-2 text-gray-400 hover:text-white font-bold"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-8 py-2 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl"
+                                >
+                                    Publish Post
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
