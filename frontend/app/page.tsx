@@ -96,7 +96,7 @@ export default function Home() {
             transition={{ delay: 0.5, duration: 0.8 }}
             className="text-xl md:text-2xl text-purple-200/60 font-light tracking-widest uppercase"
           >
-            The Future of Decentralized Gaming
+            El futuro de la vida
           </motion.p>
         </div>
 
@@ -131,7 +131,7 @@ export default function Home() {
                   transition={{ duration: 0.8 }}
                 >
                   <span className="inline-block px-4 py-1 rounded-full bg-purple-600/30 border border-purple-500/50 text-purple-300 text-xs font-bold tracking-[0.3em] mb-4 backdrop-blur-md">
-                    NEW EXPERIENCE
+                    NUEVA EXPERIENCIA
                   </span>
                   <h2 className="text-5xl md:text-7xl font-black text-white mb-4 drop-shadow-lg">
                     ENTRAR AL <br />
@@ -151,7 +151,7 @@ export default function Home() {
 
           <div className="flex items-center justify-between mb-12">
             <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
-              TOP OF THE WEEK
+              TOP DE LA SEMANA
             </h2>
             <div className="h-px flex-grow mx-8 bg-gradient-to-r from-purple-500/50 to-transparent"></div>
           </div>
@@ -167,14 +167,14 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
                   <div className="absolute bottom-0 left-0 p-8">
-                    <span className="text-purple-400 text-sm font-bold tracking-wider mb-2 block">TRENDING #{i + 1}</span>
+                    <span className="text-purple-400 text-sm font-bold tracking-wider mb-2 block">TENDENCIA #{i + 1}</span>
                     <h3 className="text-3xl font-bold mb-2">{game.title}</h3>
                     <p className="text-gray-400 text-sm line-clamp-2">{game.description}</p>
                   </div>
                 </div>
               </Link>
             )) : (
-              <div className="col-span-3 text-center text-gray-500">Loading top games...</div>
+              <div className="col-span-3 text-center text-gray-500">Cargando juegos top...</div>
             )}
           </div>
         </section>
@@ -183,10 +183,10 @@ export default function Home() {
         <section>
           <div className="flex items-center justify-between mb-12">
             <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-600">
-              LATEST NEWS
+              ÚLTIMAS NOTICIAS
             </h2>
             <Link href="/news" className="text-sm font-bold tracking-widest text-gray-500 hover:text-white transition-colors">
-              VIEW ALL &rarr;
+              VER TODO &rarr;
             </Link>
           </div>
 
@@ -203,7 +203,7 @@ export default function Home() {
                 </div>
               </Link>
             )) : (
-              <div className="col-span-2 text-center text-gray-500">Loading latest news...</div>
+              <div className="col-span-2 text-center text-gray-500">Cargando últimas noticias...</div>
             )}
           </div>
         </section>
@@ -212,21 +212,21 @@ export default function Home() {
         <section>
           <div className="flex items-center justify-between mb-12">
             <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-600">
-              FROM THE BLOG
+              DEL BLOG
             </h2>
             <Link href="/blog" className="text-sm font-bold tracking-widest text-gray-500 hover:text-white transition-colors">
-              READ MORE &rarr;
+              LEER MÁS &rarr;
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {['Tokenomics', 'Game Design', 'Tech Deep Dive', 'Community'].map((topic, i) => (
+            {['Tokenomics', 'Diseño de Juego', 'Profundización Técnica', 'Comunidad'].map((topic, i) => (
               <div key={i} className="bg-[#1a1025] rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300 border border-white/5 hover:border-purple-500/30 cursor-pointer">
                 <div className="h-32 bg-gradient-to-br from-purple-900/50 to-blue-900/50 rounded-xl mb-6 flex items-center justify-center">
                   <span className="text-4xl opacity-50">📝</span>
                 </div>
                 <h4 className="text-lg font-bold mb-2">{topic}</h4>
-                <p className="text-sm text-gray-500">Explore the latest insights about {topic.toLowerCase()}.</p>
+                <p className="text-sm text-gray-500">Explora las últimas perspectivas sobre {topic.toLowerCase()}.</p>
               </div>
             ))}
           </div>
@@ -237,12 +237,12 @@ export default function Home() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/20 blur-[100px] rounded-full"></div>
 
           <div className="relative z-10 text-center max-w-2xl mx-auto">
-            <h2 className="text-5xl font-black mb-6">SOMETHING COOL</h2>
+            <h2 className="text-5xl font-black mb-6">ALGO GENIAL</h2>
             <p className="text-xl text-gray-300 mb-8">
-              Discover the experimental features and hidden gems of the CrudoChain ecosystem.
+              Descubre las funciones experimentales y joyas ocultas del ecosistema CrudoChain.
             </p>
             <button className="px-8 py-4 bg-white text-black rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.3)]">
-              EXPLORE LABS
+              EXPLORAR LABORATORIOS
             </button>
           </div>
         </section>
@@ -252,7 +252,7 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="border-t border-white/10 mt-24 py-12 bg-black/50 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
-          <p>&copy; 2026 CrudoChain. All rights reserved.</p>
+          <p>&copy; 2026 CrudoChain. Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>

@@ -79,22 +79,22 @@ export default function LaunchPage() {
             if (res.ok) {
                 const data = await res.json();
                 if (data.status === 'success') {
-                    alert('Token Created!');
+                    alert('¡Token Creado!');
                     setShowForm(false);
                     fetchTokens();
                 } else {
                     alert('Error: ' + data.message);
                 }
             } else {
-                alert('Error creating token');
+                alert('Error al crear token');
             }
         } catch (e) {
-            alert('Error connecting to backend');
+            alert('Error conectando al backend');
         }
     };
 
     const handleDelete = async (ticker: string) => {
-        if (!confirm(`Are you sure you want to delete ${ticker}?`)) return;
+        if (!confirm(`¿Estás seguro de que quieres eliminar ${ticker}?`)) return;
         try {
             const res = await fetch('http://127.0.0.1:18080/launcher/delete', {
                 method: 'POST',
@@ -104,15 +104,15 @@ export default function LaunchPage() {
             if (res.ok) {
                 fetchTokens();
             } else {
-                alert('Error deleting token');
+                alert('Error al eliminar token');
             }
         } catch (e) {
-            alert('Error connecting to backend');
+            alert('Error conectando al backend');
         }
     };
 
     const handleBuy = async (ticker: string) => {
-        const amount = prompt(`How much USDT do you want to spend on ${ticker}?`);
+        const amount = prompt(`¿Cuánto USDT quieres gastar en ${ticker}?`);
         if (!amount) return;
 
         try {
@@ -124,13 +124,13 @@ export default function LaunchPage() {
                 })
             });
             if (res.ok) {
-                alert('Bought successfully! Price should go up.');
+                alert('¡Compra exitosa! El precio debería subir.');
                 fetchTokens();
             } else {
-                alert('Error buying token');
+                alert('Error al comprar token');
             }
         } catch (e) {
-            alert('Error connecting to backend');
+            alert('Error conectando al backend');
         }
     };
 
@@ -140,28 +140,28 @@ export default function LaunchPage() {
 
             <div className="container mx-auto p-6">
                 <div className="flex flex-col items-center mb-12 mt-20">
-                    <h1 className="text-6xl font-bold text-yellow-400 mb-6 text-center tracking-tighter">CRUDO LAUNCHER 🚀</h1>
-                    <p className="text-gray-400 mb-8 text-xl text-center max-w-2xl">Create your own memecoin in seconds. Fair launch, instant liquidity, no presale.</p>
+                    <h1 className="text-6xl font-bold text-yellow-400 mb-6 text-center tracking-tighter">LANZADOR CRUDO 🚀</h1>
+                    <p className="text-gray-400 mb-8 text-xl text-center max-w-2xl">Crea tu propia memecoin en segundos. Lanzamiento justo, liquidez instantánea, sin preventa.</p>
                     <button
                         onClick={handleStartClick}
                         className="bg-yellow-400 text-black text-xl px-12 py-4 rounded-full font-bold hover:bg-yellow-300 transition transform hover:scale-105 shadow-[0_0_20px_rgba(250,204,21,0.5)]"
                     >
-                        {showForm ? 'CANCEL CREATION' : 'START A NEW COIN 🪙'}
+                        {showForm ? 'CANCELAR CREACIÓN' : 'INICIAR NUEVA MONEDA 🪙'}
                     </button>
                     <p className={`mt-4 text-sm ${crdoBalance >= 500 ? 'text-green-400' : 'text-red-400'}`}>
-                        Your Balance: {crdoBalance} CRDO (Min: 500)
+                        Tu Saldo: {crdoBalance} CRDO (Min: 500)
                     </p>
                 </div>
 
                 {showForm && (
                     <div className="bg-gray-900 p-6 rounded-xl border border-yellow-400/30 mb-8 max-w-2xl mx-auto animate-fade-in">
-                        <h2 className="text-xl font-bold mb-4 text-yellow-400">Create your Token</h2>
+                        <h2 className="text-xl font-bold mb-4 text-yellow-400">Crea tu Token</h2>
                         <div className="space-y-4">
-                            <input placeholder="Token Name" className="w-full bg-black border border-gray-700 p-3 rounded text-white" value={name} onChange={e => setName(e.target.value)} />
-                            <input placeholder="Ticker (e.g. PEPE)" className="w-full bg-black border border-gray-700 p-3 rounded text-white" value={ticker} onChange={e => setTicker(e.target.value)} />
-                            <textarea placeholder="Description" className="w-full bg-black border border-gray-700 p-3 rounded text-white" value={desc} onChange={e => setDesc(e.target.value)} />
-                            <input placeholder="Image URL" className="w-full bg-black border border-gray-700 p-3 rounded text-white" value={image} onChange={e => setImage(e.target.value)} />
-                            <button onClick={handleCreate} className="w-full bg-green-500 text-black font-bold py-3 rounded hover:bg-green-400">LAUNCH COIN</button>
+                            <input placeholder="Nombre del Token" className="w-full bg-black border border-gray-700 p-3 rounded text-white" value={name} onChange={e => setName(e.target.value)} />
+                            <input placeholder="Ticker (ej. PEPE)" className="w-full bg-black border border-gray-700 p-3 rounded text-white" value={ticker} onChange={e => setTicker(e.target.value)} />
+                            <textarea placeholder="Descripción" className="w-full bg-black border border-gray-700 p-3 rounded text-white" value={desc} onChange={e => setDesc(e.target.value)} />
+                            <input placeholder="URL de Imagen" className="w-full bg-black border border-gray-700 p-3 rounded text-white" value={image} onChange={e => setImage(e.target.value)} />
+                            <button onClick={handleCreate} className="w-full bg-green-500 text-black font-bold py-3 rounded hover:bg-green-400">LANZAR MONEDA</button>
                         </div>
                     </div>
                 )}
@@ -180,9 +180,9 @@ export default function LaunchPage() {
                                 <img src={token.imageUrl || "https://via.placeholder.com/100"} className="w-24 h-24 rounded object-cover bg-gray-800" />
                                 <div>
                                     <h3 className="font-bold text-xl">{token.name} <span className="text-gray-500 text-sm">({token.ticker})</span></h3>
-                                    <p className="text-xs text-gray-400 mt-1">Created by: {token.creator}</p>
-                                    <p className="text-green-400 font-bold mt-2">Price: ${token.price.toFixed(8)}</p>
-                                    <p className="text-gray-500 text-xs">Mkt Cap: ${token.marketCap.toFixed(2)}</p>
+                                    <p className="text-xs text-gray-400 mt-1">Creado por: {token.creator}</p>
+                                    <p className="text-green-400 font-bold mt-2">Precio: ${token.price.toFixed(8)}</p>
+                                    <p className="text-gray-500 text-xs">Cap. de Mercado: ${token.marketCap.toFixed(2)}</p>
                                 </div>
                             </div>
                             <p className="text-sm text-gray-300 mb-4 h-12 overflow-hidden">{token.description}</p>
@@ -190,13 +190,13 @@ export default function LaunchPage() {
                             <div className="w-full bg-gray-800 rounded-full h-2 mb-4">
                                 <div className="bg-green-500 h-2 rounded-full" style={{ width: `${Math.min(100, (token.marketCap / 69000) * 100)}%` }}></div>
                             </div>
-                            <p className="text-xs text-center text-gray-500 mb-4">Bonding Curve Progress: {(token.marketCap / 69000 * 100).toFixed(2)}%</p>
+                            <p className="text-xs text-center text-gray-500 mb-4">Progreso de Curva de Vinculación: {(token.marketCap / 69000 * 100).toFixed(2)}%</p>
 
                             <button
                                 onClick={() => handleBuy(token.ticker)}
                                 className="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-2 rounded transition"
                             >
-                                BUY
+                                COMPRAR
                             </button>
                         </div>
                     ))}
