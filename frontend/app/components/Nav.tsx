@@ -80,6 +80,15 @@ export default function Nav() {
                             ]}
                         />
 
+                        <Dropdown
+                            title="SOCIAL"
+                            items={[
+                                { label: "NEWS", href: "/news" },
+                                { label: "DEV BLOG", href: "/blog" },
+                                { label: "FORUM", href: "/forum" }
+                            ]}
+                        />
+
                         <Link href="/world" className="relative group px-5 py-2">
                             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity animate-pulse"></div>
                             <div className="relative flex items-center gap-2 bg-black px-4 py-1.5 rounded-full border border-purple-500/50">
