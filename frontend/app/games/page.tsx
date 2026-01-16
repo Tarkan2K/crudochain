@@ -42,11 +42,11 @@ export default function GamesPage() {
                 <div className="text-center mb-16 relative">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none"></div>
                     <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-purple-600 mb-4 tracking-tighter drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
-                        GAME <span className="text-white">STORE</span>
+                        TIENDA DE <span className="text-white">JUEGOS</span>
                     </h1>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                        Discover, Play, and Own the Future of Gaming. <br />
-                        <span className="text-sm text-purple-400">Powered by Crudochain UGC</span>
+                        Descubre, Juega y Posee el Futuro del Gaming. <br />
+                        <span className="text-sm text-purple-400">Impulsado por Crudochain UGC</span>
                     </p>
                 </div>
 
@@ -75,14 +75,14 @@ export default function GamesPage() {
                                             <div className="absolute inset-0 bg-gradient-to-t from-[#0f0518] to-transparent opacity-80"></div>
                                             <div className="absolute bottom-4 left-4">
                                                 <div className="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-md mb-1 w-fit">
-                                                    {game.price === 0 ? 'FREE' : `${game.price} CRDO`}
+                                                    {game.price === 0 ? 'GRATIS' : `${game.price} CRDO`}
                                                 </div>
                                             </div>
 
                                             {/* Play Overlay */}
                                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-sm">
                                                 <div className="bg-white text-purple-900 font-black px-6 py-2 rounded-full transform scale-90 group-hover:scale-100 transition-transform">
-                                                    PLAY NOW 🎮
+                                                    JUGAR AHORA 🎮
                                                 </div>
                                             </div>
                                         </div>
@@ -93,8 +93,8 @@ export default function GamesPage() {
                                             <p className="text-gray-400 text-sm line-clamp-2 mb-4">{game.description}</p>
 
                                             <div className="flex justify-between items-center text-xs text-gray-500 font-mono">
-                                                <span>By {game.developerAddress.substring(0, 6)}...</span>
-                                                <span>{game.salesCount} Players</span>
+                                                <span>Por {game.developerAddress.substring(0, 6)}...</span>
+                                                <span>{game.salesCount} Jugadores</span>
                                             </div>
                                         </div>
 
@@ -121,11 +121,11 @@ export default function GamesPage() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-[#0f0518] to-transparent opacity-80"></div>
                                     </div>
                                     <div className="p-6">
-                                        <h3 className="text-2xl font-bold mb-2">Coming Soon - Q1 2026</h3>
-                                        <p className="text-gray-400 text-sm mb-4">This title is currently in development by Crudo Studios.</p>
+                                        <h3 className="text-2xl font-bold mb-2">Próximamente - Q1 2026</h3>
+                                        <p className="text-gray-400 text-sm mb-4">Este título está actualmente en desarrollo por Crudo Studios.</p>
                                         <div className="flex justify-between items-center text-xs text-gray-500 font-mono">
-                                            <span>By Crudo Studios</span>
-                                            <span>0 Players</span>
+                                            <span>Por Crudo Studios</span>
+                                            <span>0 Jugadores</span>
                                         </div>
                                     </div>
                                 </div>

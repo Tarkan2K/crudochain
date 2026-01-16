@@ -20,15 +20,15 @@ export default function SwapPage() {
                         className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl"
                     >
                         <div className="flex justify-between items-center mb-6">
-                            <h1 className="text-2xl font-bold">Swap</h1>
+                            <h1 className="text-2xl font-bold">Intercambio</h1>
                             <button className="text-gray-400 hover:text-white">⚙️</button>
                         </div>
 
                         {/* From Input */}
                         <div className="bg-black/40 rounded-2xl p-4 mb-2 border border-transparent hover:border-white/10 transition-colors">
                             <div className="flex justify-between mb-2">
-                                <span className="text-gray-400 text-sm">You pay</span>
-                                <span className="text-gray-400 text-sm">Balance: 1,000</span>
+                                <span className="text-gray-400 text-sm">Tú pagas</span>
+                                <span className="text-gray-400 text-sm">Saldo: 1,000</span>
                             </div>
                             <div className="flex justify-between items-center">
                                 <input
@@ -56,8 +56,8 @@ export default function SwapPage() {
                         {/* To Input */}
                         <div className="bg-black/40 rounded-2xl p-4 mb-6 border border-transparent hover:border-white/10 transition-colors">
                             <div className="flex justify-between mb-2">
-                                <span className="text-gray-400 text-sm">You receive</span>
-                                <span className="text-gray-400 text-sm">Balance: 0</span>
+                                <span className="text-gray-400 text-sm">Tú recibes</span>
+                                <span className="text-gray-400 text-sm">Saldo: 0</span>
                             </div>
                             <div className="flex justify-between items-center">
                                 <input
@@ -76,7 +76,7 @@ export default function SwapPage() {
                         </div>
 
                         <button className="w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-2xl text-xl shadow-[0_0_20px_rgba(22,163,74,0.4)] transition-all transform active:scale-98">
-                            Swap
+                            Intercambiar
                         </button>
 
                     </motion.div>

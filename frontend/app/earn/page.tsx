@@ -10,15 +10,15 @@ export default function EarnPage() {
 
             <main className="pt-32 px-4 max-w-7xl mx-auto">
                 <div className="text-center mb-16">
-                    <h1 className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 mb-4">EARN YIELD</h1>
-                    <p className="text-xl text-gray-400">Stake your CRDO and earn passive income.</p>
+                    <h1 className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 mb-4">GANAR RENDIMIENTO</h1>
+                    <p className="text-xl text-gray-400">Haz staking de tu CRDO y gana ingresos pasivos.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
-                        { title: "CRDO Staking", apy: "12%", lock: "Flexible" },
-                        { title: "Liquidity Pool", apy: "45%", lock: "30 Days" },
-                        { title: "Governance", apy: "8%", lock: "90 Days" }
+                        { title: "Staking de CRDO", apy: "12%", lock: "Flexible" },
+                        { title: "Pool de Liquidez", apy: "45%", lock: "30 Días" },
+                        { title: "Gobernanza", apy: "8%", lock: "90 Días" }
                     ].map((item, i) => (
                         <motion.div
                             key={i}
@@ -27,7 +27,7 @@ export default function EarnPage() {
                         >
                             <div className="flex justify-between items-start mb-8">
                                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-orange-600"></div>
-                                <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-mono">Active</span>
+                                <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-mono">Activo</span>
                             </div>
 
                             <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
@@ -37,13 +37,13 @@ export default function EarnPage() {
                                     <div className="text-4xl font-black text-yellow-400">{item.apy}</div>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-gray-400 text-sm">Lock</div>
+                                    <div className="text-gray-400 text-sm">Bloqueo</div>
                                     <div className="text-xl font-bold">{item.lock}</div>
                                 </div>
                             </div>
 
                             <button className="w-full mt-8 py-3 bg-white/10 group-hover:bg-yellow-500 group-hover:text-black font-bold rounded-xl transition-all">
-                                Stake Now
+                                Hacer Stake Ahora
                             </button>
                         </motion.div>
                     ))}

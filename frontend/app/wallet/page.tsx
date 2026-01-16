@@ -38,7 +38,7 @@ export default function WalletPage() {
                 alert(data.message);
             }
         } catch (e) {
-            alert('Error connecting to backend');
+            alert('Error conectando al backend');
         }
     };
 
@@ -108,7 +108,7 @@ export default function WalletPage() {
 
     const handleBuyCrdo = () => {
         if (!userId && !email) {
-            alert('Please log in first');
+            alert('Por favor inicia sesión primero');
             return;
         }
         setIsBuyModalOpen(true);
@@ -124,7 +124,7 @@ export default function WalletPage() {
                 <div className="flex flex-col items-center mb-24 animate-fade-in relative">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-green-500/5 rounded-full blur-[120px] pointer-events-none"></div>
 
-                    <h1 className="text-gray-500 text-xs tracking-[0.4em] uppercase mb-6 font-bold">Total Net Worth</h1>
+                    <h1 className="text-gray-500 text-xs tracking-[0.4em] uppercase mb-6 font-bold">Patrimonio Neto Total</h1>
 
                     <div className="flex items-baseline gap-2 mb-2">
                         <span className="text-8xl font-black text-white tracking-tighter">
@@ -144,7 +144,7 @@ export default function WalletPage() {
 
                     {isFounder && (
                         <div className="mt-6 bg-yellow-500/10 text-yellow-500 px-4 py-1 rounded-full font-bold text-[10px] tracking-widest border border-yellow-500/20">
-                            🏆 FOUNDER
+                            🏆 FUNDADOR
                         </div>
                     )}
                 </div>
@@ -156,14 +156,14 @@ export default function WalletPage() {
                         <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/5 rounded-full blur-[80px] group-hover:bg-green-500/10 transition-all"></div>
 
                         <h3 className="text-lg font-bold mb-8 flex items-center gap-3">
-                            <span className="text-xl">💎</span> Native Assets
+                            <span className="text-xl">💎</span> Activos Nativos
                         </h3>
 
                         <div className="flex justify-between items-center p-6 bg-[#111] rounded-2xl border border-white/5 hover:border-green-500/20 transition-all cursor-pointer group/item">
                             <div className="flex items-center gap-5">
                                 <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-black font-black text-xl shadow-[0_0_20px_rgba(0,255,157,0.3)]">C</div>
                                 <div>
-                                    <p className="font-bold text-lg text-white group-hover/item:text-green-400 transition-colors">Crudo Coin</p>
+                                    <p className="font-bold text-lg text-white group-hover/item:text-green-400 transition-colors">Moneda Crudo</p>
                                     <p className="text-xs text-gray-500 font-bold tracking-wider">CRDO</p>
                                 </div>
                             </div>
@@ -178,12 +178,12 @@ export default function WalletPage() {
                     <div className="glass-panel p-8 rounded-3xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl group-hover:bg-yellow-500/20 transition-all"></div>
                         <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                            <span className="text-2xl">🚀</span> Launchpad Tokens
+                            <span className="text-2xl">🚀</span> Tokens del Lanzador
                         </h3>
 
                         <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                             {portfolio.length === 0 ? (
-                                <p className="text-gray-500 text-center py-8">No tokens found. Go launch one!</p>
+                                <p className="text-gray-500 text-center py-8">No se encontraron tokens. ¡Ve a lanzar uno!</p>
                             ) : (
                                 portfolio.map((item) => (
                                     <div key={item.ticker} className="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5 hover:border-yellow-500/30 transition-all cursor-pointer">
@@ -193,7 +193,7 @@ export default function WalletPage() {
                                             </div>
                                             <div>
                                                 <p className="font-bold">{item.ticker}</p>
-                                                <p className="text-xs text-gray-400">Meme Token</p>
+                                                <p className="text-xs text-gray-400">Token Meme</p>
                                             </div>
                                         </div>
                                         <div className="text-right">
@@ -213,16 +213,16 @@ export default function WalletPage() {
                         onClick={handleClaim}
                         className="bg-yellow-400 text-black px-8 py-4 rounded-full font-bold hover:bg-yellow-300 transition-all shadow-[0_0_20px_rgba(250,204,21,0.5)] flex items-center gap-3 uppercase tracking-wider text-sm"
                     >
-                        <span>🎁</span> Claim Daily Reward
+                        <span>🎁</span> Reclamar Recompensa Diaria
                     </button>
                     <button
                         onClick={handleBuyCrdo}
                         className={`bg-green-500 text-white px-10 py-4 rounded-full font-black hover:bg-green-400 transition-all shadow-[0_0_30px_rgba(0,255,157,0.4)] flex items-center gap-3 uppercase tracking-wider text-sm hover:scale-105`}
                     >
-                        <span>💳</span> Buy $CRDO
+                        <span>💳</span> Comprar $CRDO
                     </button>
                     <button className="bg-[#1a1a1a] text-white border border-white/10 px-10 py-4 rounded-full font-bold hover:bg-white/10 transition-all flex items-center gap-3 uppercase tracking-wider text-sm">
-                        Send
+                        Enviar
                     </button>
                 </div>
             </div>
