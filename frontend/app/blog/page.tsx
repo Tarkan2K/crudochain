@@ -86,10 +86,10 @@ export default function BlogPage() {
                 <div className="text-center mb-16 relative">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-600/20 rounded-full blur-[120px] pointer-events-none"></div>
                     <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 mb-4 tracking-tighter drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]">
-                        DEV <span className="text-white">BLOG</span>
+                        BLOG <span className="text-white">CRUDO</span>
                     </h1>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
-                        Deep dives, technical updates, and insights from the CrudoChain team.
+                        Inmersiones profundas, actualizaciones técnicas y perspectivas del equipo CrudoChain.
                     </p>
 
                     {(role === 'ADMIN' || role === 'BLOGGER') && (
@@ -97,7 +97,7 @@ export default function BlogPage() {
                             onClick={() => setShowCreateModal(true)}
                             className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-full transition-colors shadow-lg shadow-green-600/20"
                         >
-                            WRITE NEW POST ✍️
+                            ESCRIBIR NUEVO POST ✍️
                         </button>
                     )}
                 </div>
@@ -152,7 +152,7 @@ export default function BlogPage() {
 
                 {posts.length === 0 && !loading && (
                     <div className="text-center text-gray-500 mt-12">
-                        No blog posts yet.
+                        No hay posts aún.
                     </div>
                 )}
             </main>

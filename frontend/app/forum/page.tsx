@@ -88,9 +88,9 @@ export default function ForumPage() {
                 <div className="flex items-center justify-between mb-12">
                     <div>
                         <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-4">
-                            COMMUNITY FORUM
+                            FORO COMUNITARIO
                         </h1>
-                        <p className="text-gray-400">Join the discussion about CrudoChain.</p>
+                        <p className="text-gray-400">Únete a la discusión sobre CrudoChain.</p>
                     </div>
 
                     {isLoggedIn ? (
@@ -98,11 +98,11 @@ export default function ForumPage() {
                             onClick={() => setShowCreateModal(true)}
                             className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-full transition-colors shadow-lg shadow-purple-600/20"
                         >
-                            NEW TOPIC
+                            NUEVO TEMA
                         </button>
                     ) : (
                         <div className="text-sm text-gray-500 bg-white/5 px-4 py-2 rounded-lg border border-white/10">
-                            Connect Wallet to Post
+                            Conecta tu Billetera para Publicar
                         </div>
                     )}
                 </div>
@@ -127,7 +127,7 @@ export default function ForumPage() {
                     {/* Thread List */}
                     <div className="md:col-span-3 space-y-4">
                         {loading ? (
-                            <div className="text-center py-12 text-gray-500">Loading discussions...</div>
+                            <div className="text-center py-12 text-gray-500">Cargando discusiones...</div>
                         ) : threads.length > 0 ? (
                             threads.map(thread => (
                                 <div key={thread._id} className="bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-colors cursor-pointer group">
@@ -146,7 +146,7 @@ export default function ForumPage() {
                             ))
                         ) : (
                             <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10 border-dashed text-gray-500">
-                                No threads in this category yet. Be the first!
+                                ¡No hay temas en esta categoría aún. Sé el primero!
                             </div>
                         )}
                     </div>

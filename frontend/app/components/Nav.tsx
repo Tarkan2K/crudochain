@@ -60,30 +60,30 @@ export default function Nav() {
                 {isLoggedIn ? (
                     <div className="flex items-center gap-8">
                         <Dropdown
-                            title="GAMES"
+                            title="JUEGOS"
                             items={[
-                                { label: "GAME STORE", href: "/games" },
-                                { label: "MY LIBRARY", href: "/games/library" },
-                                { label: "PUBLISH", href: "/games/publish" }
+                                { label: "TIENDA", href: "/games" },
+                                { label: "MI BIBLIOTECA", href: "/games/library" },
+                                { label: "PUBLICAR", href: "/games/publish" }
                             ]}
                         />
 
                         <Dropdown
-                            title="ASSETS"
+                            title="ACTIVOS"
                             items={[
-                                { label: "WALLET", href: "/wallet" },
-                                { label: "SWAP", href: "/swap" },
-                                { label: "EARN", href: "/earn" },
-                                { label: "MINE", href: "/mine" }
+                                { label: "BILLETERA", href: "/wallet" },
+                                { label: "INTERCAMBIO", href: "/swap" },
+                                { label: "GANAR", href: "/earn" },
+                                { label: "MINAR", href: "/mine" }
                             ]}
                         />
 
                         <Dropdown
                             title="SOCIAL"
                             items={[
-                                { label: "NEWS", href: "/news" },
-                                { label: "DEV BLOG", href: "/blog" },
-                                { label: "FORUM", href: "/forum" }
+                                { label: "CRUDO NOTICIAS", href: "/news" },
+                                { label: "BLOG CRUDO", href: "/blog" },
+                                { label: "FORO", href: "/forum" }
                             ]}
                         />
 
@@ -97,7 +97,7 @@ export default function Nav() {
                             </div>
                         </Link>
 
-                        <Link href="/launch" className={`text-xs font-bold tracking-[0.2em] hover:text-yellow-400 transition-colors ${isActive('/launch')}`}>LAUNCH 🚀</Link>
+                        <Link href="/launch" className={`text-xs font-bold tracking-[0.2em] hover:text-yellow-400 transition-colors ${isActive('/launch')}`}>LANZAMIENTO 🚀</Link>
 
                         <div className="h-6 w-px bg-white/20 mx-2"></div>
 
@@ -109,7 +109,7 @@ export default function Nav() {
                                     </svg>
                                 </div>
                             </div>
-                            <button onClick={logout} className="text-xs font-bold tracking-[0.2em] text-purple-500 hover:text-purple-400 transition-colors">LOGOUT</button>
+                            <button onClick={logout} className="text-xs font-bold tracking-[0.2em] text-purple-500 hover:text-purple-400 transition-colors">SALIR</button>
                         </div>
                     </div>
                 ) : (

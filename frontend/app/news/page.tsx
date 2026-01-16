@@ -51,10 +51,10 @@ export default function NewsPage() {
                 <div className="text-center mb-16 relative">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none"></div>
                     <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-500 to-blue-600 mb-4 tracking-tighter drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                        LATEST <span className="text-white">NEWS</span>
+                        CRUDO <span className="text-white">NOTICIAS</span>
                     </h1>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                        Stay updated with the latest developments in the CrudoChain ecosystem.
+                        Mantente actualizado con los últimos desarrollos en el ecosistema CrudoChain.
                     </p>
                 </div>
 
@@ -83,7 +83,7 @@ export default function NewsPage() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-[#0f0518] to-transparent opacity-60"></div>
                                         <div className="absolute bottom-4 left-4">
                                             <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                                                NEWS
+                                                NOTICIA
                                             </span>
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@ export default function NewsPage() {
                                         <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
                                             <span>{new Date(post.createdAt * 1000).toLocaleDateString()}</span>
                                             <span>•</span>
-                                            <span>By {post.author}</span>
+                                            <span>Por {post.author}</span>
                                         </div>
                                         <h3 className="text-3xl font-bold mb-4 group-hover:text-blue-400 transition-colors line-clamp-2">
                                             {post.title}
@@ -100,7 +100,7 @@ export default function NewsPage() {
                                             {post.content}
                                         </p>
                                         <div className="mt-6 text-blue-400 font-bold text-sm tracking-widest group-hover:translate-x-2 transition-transform inline-block">
-                                            READ FULL ARTICLE &rarr;
+                                            LEER ARTÍCULO COMPLETO &rarr;
                                         </div>
                                     </div>
                                 </motion.div>
@@ -111,7 +111,7 @@ export default function NewsPage() {
 
                 {posts.length === 0 && !loading && (
                     <div className="text-center text-gray-500 mt-12">
-                        No news yet. Check back later!
+                        No hay noticias aún. ¡Vuelve más tarde!
                     </div>
                 )}
             </main>
