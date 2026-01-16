@@ -14,27 +14,20 @@ export default function WorldPage() {
                 Nav is p-8 (approx 32px + content). Let's assume approx 80-100px.
                 However, to center content perfectly in the "remaining" space:
             */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center z-0">
-                <div className="relative w-full max-w-4xl aspect-square flex flex-col items-center justify-center">
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-0 pt-20">
+                <div className="relative w-full max-w-2xl h-[70vh] flex flex-col items-center justify-center">
                     {/* Monolith Image */}
                     <img
                         src="/monolith_endless.png"
                         alt="Monolith"
-                        className="w-full h-full object-contain opacity-80 drop-shadow-[0_0_50px_rgba(168,85,247,0.4)]"
+                        className="w-full h-full object-contain opacity-90 drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]"
                     />
 
-                    {/* Overlay Text */}
-                    <div className="absolute bottom-10 text-center space-y-4 bg-black/60 backdrop-blur-sm p-6 rounded-2xl border border-white/10">
-                        <h1 className="text-3xl md:text-5xl font-bold tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 animate-pulse">
-                            MOTOR C++ NATIVO
+                    {/* Simple Text */}
+                    <div className="absolute bottom-0 text-center">
+                        <h1 className="text-4xl md:text-6xl font-black tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 animate-pulse">
+                            PRÓXIMAMENTE
                         </h1>
-                        <p className="text-xl md:text-2xl text-gray-300 tracking-widest font-light">
-                            EN CONSTRUCCIÓN
-                        </p>
-                        <div className="h-px w-32 mx-auto bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
-                        <p className="text-sm md:text-base text-purple-300/80 tracking-[0.3em] uppercase">
-                            LA ERA DE LA PIEDRA SE ACERCA
-                        </p>
                     </div>
                 </div>
             </div>
