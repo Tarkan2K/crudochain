@@ -2,7 +2,7 @@
 
 **Crudochain** es una plataforma web integrada que combina elementos de videojuegos, economía de tokens y comunidad.
 
-## 🚀 Tecnologías
+## Tecnologias
 
 El proyecto utiliza un stack moderno y eficiente:
 
@@ -10,13 +10,13 @@ El proyecto utiliza un stack moderno y eficiente:
 *   **Backend**: Node.js, Express, MongoDB.
 *   **Pagos**: Integración completa con Mercado Pago.
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 
 *   `/frontend`: Aplicación cliente en Next.js.
 *   `/backend`: Servidor API RESTful y lógica de base de datos.
 *   `/documentation`: Documentación técnica y manuales (si aplica).
 
-## 🛠️ Instalación y Uso
+## Instalacion y Uso
 
 ### Backend
 
@@ -49,18 +49,18 @@ El proyecto utiliza un stack moderno y eficiente:
     npm run dev
     ```
 
-## ✨ Características
+## Caracteristicas
 
 *   **Autenticación**: Registro y login de usuarios seguro.
 *   **Tienda de Tokens**: Adquisición de CRDO mediante Mercado Pago.
 *   **Juegos**: Acceso a juegos web integrados.
 *   **Perfil**: Personalización de avatar y seguimiento de estadísticas.
 
-## 🔜 Próximamente
+## Proximamente
 
 *   Mundocrudo (Metaverso)
 *   Swap de Tokens
 *   Publicación de juegos por usuarios
 
 ---
-Desarrollado con ❤️ por el equipo de Crudochain.
+Desarrollado por el equipo de Crudochain.
