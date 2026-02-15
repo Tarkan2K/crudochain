@@ -62,5 +62,14 @@ El proyecto utiliza un stack moderno y eficiente:
 *   Swap de Tokens
 *   Publicación de juegos por usuarios
 
+### Nota sobre el Futuro (Migracion a C++)
+
+Aunque la version actual utiliza Node.js para agilizar el desarrollo de esta fase, el **objetivo final** es migrar el nucleo del sistema (Backend de alto rendimiento y motor de juegos) a **C++**.
+
+Se ha preservado el diseño técnico original en el archivo `MANUAL_TECNICO_LEGACY.md` como referencia para esta futura re-implementacion, que incluira:
+*   Blockchain propia / Sidechain.
+*   Motor de Casino provably fair en C++.
+*   Matching Engine de alta frecuencia.
+
 ---
 Desarrollado por el equipo de Crudochain.
